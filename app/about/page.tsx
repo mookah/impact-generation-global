@@ -13,7 +13,7 @@ export default function AboutPage() {
       {/* HERO */}
       <section className="relative min-h-[85vh] overflow-hidden text-white">
         <Image
-          src="/images/about-hero.jpg"
+          src="/images/about-hero-new.jpg"
           alt="Impact Generation Global"
           fill
           priority
