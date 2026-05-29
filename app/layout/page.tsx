@@ -1,11 +1,10 @@
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Impact Generation Global",
   description:
-    "Christ-centered nonprofit focused on youth empowerment, discipleship, and community transformation.",
+    "Raising a generation transformed by faith, purpose, and practical support.",
 };
 
 export default function RootLayout({
@@ -15,10 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-white text-slate-900">
+      <body className="bg-white text-slate-900 antialiased">
         <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );
