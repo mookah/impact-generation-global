@@ -13,7 +13,7 @@ const PROGRAMS = [
   { title: "Camp Meetings", slug: "camp-meetings" },
 ];
 
-export default function Header(): JSX.Element {
+export default function Header() {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
