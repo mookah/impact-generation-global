@@ -17,7 +17,7 @@ const galleryImages = [
   "/images/boys-to-men-6.jpg",
 ];
 
-export default function BoysToMenPage(): JSX.Element {
+export default function BoysToMenPage() {
   return (
     <main className="bg-white text-slate-900 antialiased">
       {/* HERO */}
