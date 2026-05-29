@@ -16,7 +16,7 @@ const programs = [
   { title: "Pad a Girl", slug: "pad-a-girl", desc: "Hygiene and dignity support for girls." },
 ];
 
-export default function Home(): JSX.Element {
+export default function Home() {
   return (
     <main className="bg-white text-slate-900 antialiased">
       {/* HERO */}
