@@ -4,42 +4,50 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const PROGRAMS = [
-  { title: "Boys to Men", slug: "boys-to-men" },
-  { title: "Pad A Girl", slug: "pad-a-girl" },
-  { title: "School Ministry", slug: "school-ministry" },
-  { title: "Cycle For Change", slug: "cycle-for-change" },
-  { title: "Pastors Kids", slug: "pastors-kids" },
-  { title: "Prison Ministry", slug: "prison-ministry" },
-  { title: "Camp Meetings", slug: "camp-meetings" },
+  { title: "Boys to Men", slug: "boys-to-men", icon: "👨‍👦" },
+  { title: "Pad A Girl", slug: "pad-a-girl", icon: "🩸" },
+  { title: "School Ministry", slug: "school-ministry", icon: "🏫" },
+  { title: "Cycle For Change", slug: "cycle-for-change", icon: "🚴" },
+  { title: "Pastors Kids", slug: "pastors-kids", icon: "👨‍👩‍👧" },
+  { title: "Prison Ministry", slug: "prison-ministry", icon: "🔓" },
+  { title: "Camp Meetings", slug: "camp-meetings", icon: "🏕️" },
 ];
 
-export default function Header() {
+export default function Header(): JSX.Element {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  // Close on outside click
+  // Close on outside pointerdown and Escape; ignore clicks on the button itself
   useEffect(() => {
-    function onDocClick(e: MouseEvent) {
-      if (!menuRef.current) return;
-      if (menuRef.current.contains(e.target as Node)) return;
-      setOpen(false);
+    function onPointerDown(e: PointerEvent) {
+      const target = e.target as Node | null;
+      if (!target) return;
+
+      const clickedInsideMenu = menuRef.current?.contains(target);
+      const clickedToggle = buttonRef.current?.contains(target);
+
+      if (!clickedInsideMenu && !clickedToggle) {
+        setOpen(false);
+      }
     }
-    function onEsc(e: KeyboardEvent) {
+
+    function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
     }
-    document.addEventListener("click", onDocClick);
-    document.addEventListener("keydown", onEsc);
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
     return () => {
-      document.removeEventListener("click", onDocClick);
-      document.removeEventListener("keydown", onEsc);
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
     };
   }, []);
 
-  // Focus first item when opening
+  // Focus first menu item when opening
   useEffect(() => {
     if (!open) return;
-    const first = menuRef.current?.querySelector<HTMLAnchorElement>("a");
+    const first = menuRef.current?.querySelector<HTMLAnchorElement>("a[role='menuitem']");
     first?.focus();
   }, [open]);
 
@@ -60,12 +68,12 @@ export default function Header() {
           <a href="#mission" className="text-slate-700 hover:text-emerald-700 transition">Mission</a>
 
           {/* Programs dropdown */}
-          <div className="relative" ref={menuRef}>
+          <div className="relative" aria-haspopup="true">
             <button
               ref={buttonRef}
               onClick={() => setOpen((s) => !s)}
               aria-expanded={open}
-              aria-haspopup="menu"
+              aria-controls="programs-menu"
               className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-slate-700 hover:text-emerald-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
             >
               Programs
@@ -81,6 +89,8 @@ export default function Header() {
 
             {open && (
               <div
+                id="programs-menu"
+                ref={menuRef}
                 role="menu"
                 aria-label="Programs"
                 className="absolute right-0 mt-3 w-64 rounded-2xl border border-slate-100 bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none"
@@ -91,13 +101,11 @@ export default function Header() {
                       key={p.slug}
                       href={`/${p.slug}`}
                       role="menuitem"
+                      tabIndex={0}
                       className="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200"
                       onClick={() => setOpen(false)}
                     >
-                      <span className="text-lg" aria-hidden>
-                        {/* lightweight icon fallback */}
-                        {p.title === "Pad A Girl" ? "🩸" : p.title === "Boys to Men" ? "👨‍👦" : "📌"}
-                      </span>
+                      <span className="text-lg" aria-hidden>{p.icon}</span>
                       <span className="font-semibold">{p.title}</span>
                     </Link>
                   ))}
@@ -116,7 +124,6 @@ export default function Header() {
             )}
           </div>
 
-          <a href="#programs" className="text-slate-700 hover:text-emerald-700 transition">Programs (anchor)</a>
           <Link href="/about" className="text-slate-700 hover:text-emerald-700 transition">About</Link>
           <Link href="/contact" className="text-slate-700 hover:text-emerald-700 transition">Contact</Link>
 

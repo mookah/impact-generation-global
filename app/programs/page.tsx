@@ -1,8 +1,9 @@
 "use client";
 
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
 
 type Program = {
   title: string;
@@ -56,15 +57,121 @@ const PROGRAMS: Program[] = [
   },
 ];
 
+/* Dropdown portal component:
+   - Renders into document.body so it can't be clipped by parent overflow.
+   - Positions itself under the anchor button using getBoundingClientRect.
+   - Closes on outside pointerdown and Escape.
+*/
+function ProgramsDropdown({
+  anchorRef,
+  open,
+  onClose,
+  programs,
+}: {
+  anchorRef: React.RefObject<HTMLElement>;
+  open: boolean;
+  onClose: () => void;
+  programs: Program[];
+}) {
+  const elRef = useRef<HTMLDivElement | null>(null);
+  const [pos, setPos] = useState<{ top: number; left: number; width: number } | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const anchor = anchorRef.current;
+    if (!anchor) return;
+
+    const rect = anchor.getBoundingClientRect();
+    const width = Math.min(360, Math.max(240, rect.width)); // sensible width
+    const left = Math.max(12, rect.left + rect.width - width); // align right edge
+    const top = rect.bottom + 8; // small gap
+    setPos({ top, left, width });
+
+    function onPointerDown(e: PointerEvent) {
+      const target = e.target as Node | null;
+      if (!target) return;
+      if (elRef.current?.contains(target)) return;
+      if (anchor.contains(target)) return;
+      onClose();
+    }
+
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, anchorRef, onClose]);
+
+  useEffect(() => {
+    if (!open || !elRef.current) return;
+    const first = elRef.current.querySelector<HTMLAnchorElement>("a[role='menuitem']");
+    first?.focus();
+  }, [open]);
+
+  if (!open || !pos) return null;
+
+  return createPortal(
+    <div
+      ref={elRef}
+      role="menu"
+      aria-label="Programs"
+      style={{
+        position: "fixed",
+        top: pos.top,
+        left: pos.left,
+        width: pos.width,
+        zIndex: 9999,
+      }}
+      className="rounded-2xl border border-slate-100 bg-white shadow-2xl ring-1 ring-black/10"
+    >
+      <div className="p-2">
+        {programs.map((p) => (
+          <Link
+            key={p.slug}
+            href={`/${p.slug}`}
+            role="menuitem"
+            tabIndex={0}
+            className="flex items-center gap-3 rounded-lg px-4 py-3 text-slate-800 hover:bg-emerald-50 hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-200"
+            onClick={onClose}
+          >
+            <span className="text-2xl" aria-hidden>
+              {p.icon}
+            </span>
+            <div>
+              <div className="font-semibold">{p.title}</div>
+              <div className="text-xs text-slate-500">{p.desc}</div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="border-t border-slate-100 px-3 py-2">
+        <Link
+          href="/programs"
+          className="block rounded-md px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-50"
+          onClick={onClose}
+        >
+          View all programs
+        </Link>
+      </div>
+    </div>,
+    document.body
+  );
+}
+
 export default function ProgramsPage() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const anchorRef = useRef<HTMLButtonElement | null>(null);
 
   const filtered = useMemo(() => {
     const search = query.trim().toLowerCase();
-
     if (!search) return PROGRAMS;
-
     return PROGRAMS.filter((program) =>
       `${program.title} ${program.desc}`.toLowerCase().includes(search)
     );
@@ -104,27 +211,23 @@ export default function ProgramsPage() {
               <div className="relative mt-8 max-w-md">
                 <button
                   type="button"
-                  onClick={() => setOpen(!open)}
+                  ref={anchorRef}
+                  onClick={() => setOpen((s) => !s)}
+                  aria-expanded={open}
+                  aria-controls="programs-menu"
                   className="flex w-full items-center justify-between rounded-full border border-white/20 bg-white px-6 py-4 font-bold text-slate-900 shadow-xl"
                 >
                   View All Programs
                   <span>{open ? "▲" : "▼"}</span>
                 </button>
 
-                {open && (
-                  <div className="absolute left-0 right-0 top-full z-40 mt-3 overflow-hidden rounded-3xl border border-white/20 bg-white p-3 shadow-2xl">
-                    {PROGRAMS.map((program) => (
-                      <Link
-                        key={program.slug}
-                        href={`/${program.slug}`}
-                        className="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-700"
-                      >
-                        <span className="text-2xl">{program.icon}</span>
-                        <span className="font-bold">{program.title}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
+                {/* Portal dropdown ensures visibility above hero image */}
+                <ProgramsDropdown
+                  anchorRef={anchorRef}
+                  open={open}
+                  onClose={() => setOpen(false)}
+                  programs={PROGRAMS}
+                />
               </div>
             </div>
           </div>
@@ -193,7 +296,7 @@ export default function ProgramsPage() {
           </div>
 
           {filtered.length === 0 && (
-            <div className="rounded-3xl bg-white p-10 text-center shadow-sm">
+            <div className="rounded-3xl bg-white p-10 text-center shadow-sm mt-8">
               <h3 className="text-2xl font-black">No program found</h3>
               <p className="mt-2 text-slate-600">
                 Try searching with another word.
