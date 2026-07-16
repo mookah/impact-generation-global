@@ -1,180 +1,441 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import styles from "./newsletter.module.css";
+import PrintButton from "./PrintButton";
 
-export default function NewsletterPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
+const programs = [
+  {
+    title: "Annual Youth Camp",
+    text: "Five days away from daily pressures for mentorship, worship, one-on-one conversations and teaching on issues affecting young people.",
+  },
+  {
+    title: "Boys to Men",
+    text: "Focused mentorship that helps boys develop character, responsibility, faith and a healthy understanding of manhood.",
+  },
+  {
+    title: "Pad A Girl",
+    text: "Supporting girls with sanitary pads, dignity education and encouragement so menstruation does not prevent them from attending school.",
+  },
+];
 
-  const newsletters = [
-    {
-      month: "April 2026",
-      title: "Cycle For Change Festival",
-      desc: "Youth cycling initiatives, community awareness, and preparations for city impact.",
-      href: "#",
-    },
-    {
-      month: "March 2026",
-      title: "Pad A Girl Outreach",
-      desc: "Dignity support, school sessions, mentorship, and girls empowerment activities.",
-      href: "#",
-    },
-    {
-      month: "February 2026",
-      title: "Boys To Men Mentorship",
-      desc: "Leadership development, character building, discipline, and mentorship highlights.",
-      href: "#",
-    },
-  ];
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!name.trim() || !email.trim()) {
-      setStatus("Please fill in all fields.");
-      return;
-    }
-
-    setStatus("✅ Subscription successful!");
-    setName("");
-    setEmail("");
-  };
-
+export default function July2026NewsletterPage() {
   return (
-    <main className="bg-white text-slate-900">
-      <section className="relative min-h-[70vh] overflow-hidden text-white">
-        <Image
-          src="/images/newsletter-hero.jpg"
-          alt="Impact Generation Global Newsletter"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+    <main className={styles.site}>
+      <div className={styles.toolbar}>
+        <Link href="/" className={styles.backButton}>← Back Home</Link>
+        <PrintButton className={styles.printButton} />
+      </div>
 
-        <div className="absolute inset-0 bg-black/45" />
+      <article className={styles.newsletter}>
+        {/* PAGE 1 */}
+        <section className={`${styles.page} ${styles.premiumCover}`}>
+          <div className={styles.coverTopBar}>
+            <div className={styles.coverBrand}>
+              <Image
+                src="/images/newsletter/july-2026/logo.jpg"
+                alt="Impact Generation Global logo"
+                width={300}
+                height={140}
+                className={styles.coverBrandLogo}
+                priority
+              />
+              <div>
+                <strong>Impact Generation Global</strong>
+                <span>Zambia and beyond</span>
+              </div>
+            </div>
 
-        <div className="relative z-20 flex min-h-[70vh] items-center px-6 pt-28">
-          <div className="mx-auto w-full max-w-7xl">
-            <div className="max-w-3xl">
-              <p className="text-sm font-bold uppercase tracking-[0.28em] text-emerald-300">
-                Stay Connected
-              </p>
+            <p className={styles.coverIssue}>July 2026 Ministry Newsletter</p>
+          </div>
 
-              <h1 className="mt-5 text-5xl font-black leading-[0.95] md:text-7xl">
-                Newsletter
-              </h1>
-
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-100">
-                Receive impact stories, program updates, outreach reports, and
-                opportunities to partner with Impact Generation Global.
-              </p>
+          <div className={styles.coverPhotoFrame}>
+            <Image
+              src="/images/newsletter/july-2026/school-ministry.jpg"
+              alt="Impact Generation Global school ministry"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 900px"
+              className={styles.coverPhoto}
+            />
+            <div className={styles.coverPhotoShade} />
+            <div className={styles.coverPhotoLabel}>
+              <span>Faith in action</span>
+              <strong>Reaching young people where they are</strong>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="px-6 py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-700">
-              Join Our Community
+          <div className={styles.coverTitlePanel}>
+            <p className={styles.coverKicker}>Discipleship • Dignity • Healthy Choices</p>
+            <h1>Transforming the Next Generation</h1>
+            <p className={styles.coverIntro}>
+              Lasting hope in Jesus Christ through mentorship, practical support,
+              leadership development and community outreach.
             </p>
 
-            <h2 className="mt-4 text-4xl font-black md:text-5xl">
-              Get Monthly Updates
-            </h2>
-
-            <p className="mt-5 text-lg leading-8 text-slate-600">
-              Stay informed about Boys To Men, Pad A Girl, Cycle For Change,
-              Pastors Kids, School Ministry, outreach events, and community
-              transformation stories.
-            </p>
-          </div>
-
-          <form
-            onSubmit={handleSubmit}
-            className="rounded-3xl bg-slate-50 p-8 shadow-xl"
-          >
-            <h3 className="text-2xl font-black">Subscribe Today</h3>
-
-            <div className="mt-6 space-y-5">
-              <input
-                type="text"
-                placeholder="Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-emerald-600"
-              />
-
-              <input
-                type="email"
-                placeholder="Your Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-emerald-600"
-              />
-
-              <button
-                type="submit"
-                className="rounded-full bg-emerald-600 px-8 py-4 font-bold text-white transition hover:bg-emerald-700"
-              >
-                Subscribe
-              </button>
-
-              {status && (
-                <p className="font-semibold text-emerald-700">{status}</p>
-              )}
+            <div className={styles.coverHighlights}>
+              <span>Youth Ministry</span>
+              <span>School Outreach</span>
+              <span>Community Impact</span>
             </div>
-          </form>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      <section className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-700">
-              Newsletter Archive
-            </p>
-
-            <h2 className="mt-4 text-4xl font-black md:text-5xl">
-              Previous Monthly Newsletters
-            </h2>
-
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
-              Catch up on previous updates, stories, and reports from our
-              ministry and community programs.
-            </p>
+        {/* PAGE 2 */}
+        <section className={`${styles.page} ${styles.lightPage}`}>
+          <div className={styles.heroStrip}>
+            <Image
+              src="/images/newsletter/july-2026/cycle-for-change.jpg"
+              alt="Cycle for Change"
+              fill
+              sizes="100vw"
+              className={styles.coverImage}
+            />
+            <div className={styles.heroStripOverlay} />
+            <div className={styles.heroStripText}>
+              <h2>Welcoming Joe Wesleyan</h2>
+              <p>A new board member with a passion for discipleship and transformation across Africa.</p>
+            </div>
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {newsletters.map((item) => (
-              <article
-                key={item.month}
-                className="rounded-3xl bg-white p-8 shadow-sm transition hover:-translate-y-2 hover:shadow-xl"
-              >
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-emerald-600">
-                  {item.month}
+          <div className={styles.pageBody}>
+            <div className={styles.joeGrid}>
+              <Image
+                src="/images/newsletter/july-2026/joe.jpg"
+                alt="Joe Wesleyan"
+                width={900}
+                height={900}
+                className={styles.joePortrait}
+              />
+
+              <div>
+                <h3>August Zambia Mission</h3>
+                <p>
+                  Joe is an exceptional leader who is passionate about seeing young
+                  people in Zambia and across Africa discipled and transformed. This
+                  August, he will accompany David Luby on an extended ministry trip
+                  to Zambia.
                 </p>
 
-                <h3 className="mt-4 text-2xl font-black">{item.title}</h3>
-
-                <p className="mt-4 leading-7 text-slate-600">{item.desc}</p>
-
-                <Link
-                  href={item.href}
-                  className="mt-6 inline-flex font-bold text-emerald-700"
-                >
-                  Read Newsletter →
-                </Link>
-              </article>
-            ))}
+                <div className={styles.stack}>
+                  <InfoCard title="Strengthen leadership" text="Meet local ministry leaders and encourage the teams serving on the ground." />
+                  <InfoCard title="Invest in youth" text="Spend time with young people whose lives are being touched through our programmes." />
+                  <InfoCard title="Build partnerships" text="Connect with churches, schools and community organisations." />
+                  <InfoCard title="Plan for the future" text="Develop initiatives that create sustainable, long-term impact." />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+          <Footer page="2" />
+        </section>
+
+
+        {/* PAGE 3 */}
+        <section className={`${styles.page} ${styles.lightPage}`}>
+          <header className={styles.greenHeader}>
+            <h2>A Season of Sorrow and Hope</h2>
+          </header>
+
+          <div className={styles.pageBody}>
+            <div className={styles.twoColumns}>
+              <div>
+                <Image
+                  src="/images/newsletter/july-2026/andy.jpg"
+                  alt="Andrew Andy Rovengo"
+                  width={700}
+                  height={900}
+                  className={styles.portrait}
+                />
+              </div>
+
+              <div>
+                <p className={styles.eyebrow}>In Loving Memory</p>
+                <h3>Greetings in the Name of Our Lord Jesus Christ</h3>
+                <p>
+                  Indeed, God works in ways we do not always understand. Late in May,
+                  we lost one of our beloved board members, Andrew “Andy” Rovengo.
+                  Andy was not only a board member; he was a faithful friend and
+                  ministry partner. He supported the organisation financially and
+                  helped strengthen our paperwork, governance and organisational
+                  structure.
+                </p>
+                <p>
+                  We thank God for Andy’s life, wisdom and generosity. His contribution
+                  will remain part of the foundation of Impact Generation Global for
+                  years to come.
+                </p>
+
+                <div className={styles.goldQuote}>
+                  <strong>“Well done, good and faithful servant.”</strong>
+                  <span>Matthew 25:21</span>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.whiteCard}>
+              <h4>Even in grief, God continues to provide.</h4>
+              <p>
+                As we mourn Andy’s passing, we also recognise God’s comfort and
+                faithfulness. He has brought a young and energetic leader, Joe
+                Wesleyan, to serve with us. This newsletter shares both the loss we
+                have experienced and the hope-filled work that continues among young
+                people in Zambia.
+              </p>
+            </div>
+          </div>
+          <Footer page="3" />
+        </section>
+
+        {/* PAGE 4 */}
+        <section className={`${styles.page} ${styles.whitePage}`}>
+          <div className={styles.pageBody}>
+            <p className={styles.eyebrowGold}>What We Do</p>
+            <h2 className={styles.darkTitle}>Discipleship at the centre of every programme</h2>
+            <p className={styles.lead}>
+              Impact Generation Global focuses on transforming young lives through
+              discipleship, practical education and healthy activities. The Word of
+              God remains our number one core value in every outreach.
+            </p>
+
+            <div className={styles.photoGrid}>
+              <FeaturePhoto
+                src="/images/newsletter/july-2026/cycle-for-change.jpg"
+                title="Cycle for Change"
+                text="Bicycles gather young people, encourage healthy living and create opportunities to teach against drug abuse while sharing the Gospel."
+              />
+              <FeaturePhoto
+                src="/images/newsletter/july-2026/school-ministry.jpg"
+                title="School Ministry"
+                text="With access granted through education authorities and school leaders, our teams follow young people in schools with anti-drug education, mentoring and discipleship."
+              />
+            </div>
+
+            <div className={styles.threeCards}>
+              {programs.map((program) => (
+                <div className={styles.programCard} key={program.title}>
+                  <div className={styles.goldDot} />
+                  <h4>{program.title}</h4>
+                  <p>{program.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Footer page="4" />
+        </section>
+
+        {/* PAGE 5 */}
+        <section className={`${styles.page} ${styles.lightPage}`}>
+          <div className={styles.padHero}>
+            <Image
+              src="/images/newsletter/july-2026/pad-a-girl.jpg"
+              alt="Pad A Girl outreach"
+              fill
+              sizes="100vw"
+              className={styles.coverImage}
+            />
+            <div className={styles.heroStripOverlay} />
+            <div className={styles.heroStripText}>
+              <h2>Dignity for More Than 60 Girls</h2>
+              <p>A successful Pad A Girl outreach in early July.</p>
+            </div>
+          </div>
+
+          <div className={styles.pageBody}>
+            <h3>Partnership makes greater impact possible.</h3>
+            <p>
+              In early July, Babuyu Foundation organised a successful Pad A Girl
+              programme in partnership with Liseli Foundation, Lilato Foundation and
+              Impact Generation Global. Babuyu Foundation donated sanitary pads to
+              more than 60 girls.
+            </p>
+            <p>
+              The outreach addressed a practical need while also creating space to
+              encourage the girls, affirm their dignity and remind them that they are
+              valued by God. We are grateful for every organisation and individual
+              who made this day possible.
+            </p>
+
+            <div className={styles.greenQuote}>
+              <strong>Pads restore dignity. Discipleship restores hope.</strong>
+              <span>Together, practical support and the Gospel can keep girls in school and moving toward their future.</span>
+            </div>
+          </div>
+          <Footer page="5" />
+        </section>
+
+        {/* PAGE 6 */}
+        <section className={`${styles.page} ${styles.darkPage}`}>
+          <div className={styles.pageBody}>
+            <p className={styles.eyebrowGold}>Katombora Juvenile Correctional Facility</p>
+            <h2 className={styles.whiteTitle}>Hope Behind Prison Walls</h2>
+
+            <Image
+              src="/images/newsletter/july-2026/prison-ministry.jpg"
+              alt="Supplies donated during prison ministry"
+              width={1400}
+              height={700}
+              className={styles.widePhoto}
+            />
+
+            <div className={styles.darkCard}>
+              <h3>Transformation is possible.</h3>
+              <p>
+                For the past several years, Impact Generation Global has visited
+                juveniles at Katombora, sharing the love of Christ and donating
+                groceries and other necessities. Although these young people have
+                made mistakes, we believe their past does not have to define their
+                future.
+              </p>
+              <p>
+                Through discipleship, encouragement and practical care, we remind them
+                that they can change, return to society and become responsible people
+                who contribute positively to their families and communities.
+              </p>
+            </div>
+
+            <div className={styles.goldQuote}>
+              <strong>“If anyone is in Christ, he is a new creation.”</strong>
+              <span>2 Corinthians 5:17</span>
+              <em>No young person is beyond the reach of God’s grace.</em>
+            </div>
+          </div>
+          <Footer page="6" dark />
+        </section>
+
+        {/* PAGE 7 */}
+        <section className={`${styles.page} ${styles.lightPage}`}>
+          <div className={styles.landHero}>
+            <Image
+              src="/images/newsletter/july-2026/land.jpg"
+              alt="Land purchased for future ministry development"
+              fill
+              sizes="100vw"
+              className={styles.coverImage}
+            />
+            <div className={styles.heroStripOverlay} />
+            <div className={styles.heroStripText}>
+              <p className={styles.eyebrowGold}>Building for the Future</p>
+              <h2>A permanent home for ministry</h2>
+            </div>
+          </div>
+
+          <div className={styles.pageBody}>
+            <p className={styles.lead}>
+              With the support of our partners, Impact Generation Global was able to
+              purchase a piece of land this year. We plan to develop a centre for
+              ministry activities and a team house.
+            </p>
+
+            <div className={styles.stack}>
+              <InfoCard title="Youth centre" text="A welcoming place for discipleship, counselling, leadership development and skills training." />
+              <InfoCard title="Programme base" text="A permanent home for school ministry, Cycle for Change, Boys to Men and Pad A Girl activities." />
+              <InfoCard title="Team house" text="Accommodation for visiting ministry teams, partners and leaders serving alongside our local staff." />
+            </div>
+
+            <div className={styles.navyCallout}>
+              <p className={styles.eyebrowGold}>A Long-Term Investment in the Next Generation</p>
+              <h3>This vision requires prayer, partnership and support.</h3>
+              <p>
+                Every contribution helps us move closer to a sustainable ministry
+                centre where young people can be discipled, protected, trained and
+                released into their God-given purpose.
+              </p>
+            </div>
+          </div>
+          <Footer page="7" />
+        </section>
+
+        {/* PAGE 8 */}
+        <section className={`${styles.page} ${styles.finalPage}`}>
+          <div className={styles.pageBody}>
+            <p className={styles.eyebrowGold}>Partner With Us</p>
+            <h2 className={styles.whiteTitle}>Help us reach the next generation.</h2>
+            <p className={styles.finalLead}>
+              Your prayers and financial support help provide discipleship, school
+              outreach, youth camps, dignity programmes, prison ministry, leadership
+              development and the August Zambia mission.
+            </p>
+
+            <div className={styles.donationGrid}>
+              <div className={styles.qrCard}>
+                <Image
+                  src="/images/newsletter/july-2026/donate-qr.png"
+                  alt="Donation QR code"
+                  width={420}
+                  height={420}
+                  className={styles.qr}
+                />
+                <strong>Scan to Donate</strong>
+              </div>
+
+              <div>
+                <h3>Support the work</h3>
+                <p>
+                  Visit our website to give toward the ministry, the land development
+                  project, or David and Joe’s August trip to Zambia.
+                </p>
+
+                <a
+                  href="https://impactgenerationglobal.org/donate"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.donateLink}
+                >
+                  impactgenerationglobal.org/donate
+                </a>
+
+                <h3 className={styles.thankYou}>Thank you for standing with us.</h3>
+                <p>
+                  Together, we can raise a generation that knows Christ, rejects drug
+                  abuse, walks in purpose and transforms communities.
+                </p>
+              </div>
+            </div>
+
+            <div className={styles.signature}>
+              <p><em>In His service,</em></p>
+              <strong>David Luby</strong>
+              <span>Executive Director, Impact Generation Global</span>
+            </div>
+          </div>
+          <Footer page="8" dark />
+        </section>
+      </article>
     </main>
+  );
+}
+
+function InfoCard({ title, text }: { title: string; text: string }) {
+  return (
+    <div className={styles.infoCard}>
+      <h4>{title}</h4>
+      <p>{text}</p>
+    </div>
+  );
+}
+
+function FeaturePhoto({
+  src,
+  title,
+  text,
+}: {
+  src: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div>
+      <Image src={src} alt={title} width={1000} height={700} className={styles.featurePhoto} />
+      <h3 className={styles.greenHeading}>{title}</h3>
+      <p>{text}</p>
+    </div>
+  );
+}
+
+function Footer({ page, dark = false }: { page: string; dark?: boolean }) {
+  return (
+    <footer className={`${styles.footer} ${dark ? styles.footerDark : ""}`}>
+      <span>Impact Generation Global | July 2026 Newsletter</span>
+      <span>{page}</span>
+    </footer>
   );
 }

@@ -1,223 +1,472 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import FadeIn from "@/components/FadeIn";
 
-const highlights = [
-  "Mentorship",
-  "Character Building",
-  "Leadership",
-  "Discipline",
+const PAYPAL_DONATE_LINK =
+  "https://www.paypal.com/donate/?hosted_button_id=34HPDHC4M7YZA";
+
+const GOFUNDME_LINK = "https://gofund.me/41ae9b3bf";
+
+const slides = [
+  "/images/boys-to-men/boys-to-men-hero.jpg",
+  "/images/boys-to-men/boys-to-men-2.jpg",
+  "/images/boys-to-men/boys-to-men-3.jpg",
+  "/images/boys-to-men/boys-to-men-4.jpg",
+  "/images/boys-to-men/boys-to-men-5.jpg",
+  "/images/boys-to-men/boys-to-men-6.jpg",
+  "/images/boys-to-men/boys-to-men-7.jpg",
+];
+
+const stats = [
+  { value: "Mentorship", label: "Guidance for young men" },
+  { value: "Character", label: "Built through teaching" },
+  { value: "Leadership", label: "Raised with purpose" },
+  { value: "Faith", label: "At the foundation" },
 ];
 
 const focusAreas = [
   {
+    icon: "🤝",
     title: "Mentorship Sessions",
-    desc: "Regular guidance from trusted mentors who help boys make wise choices.",
+    desc: "Regular guidance from trusted mentors who help boys make wise choices and build confidence.",
   },
   {
-    title: "Leadership Training",
-    desc: "Practical lessons that develop responsibility, confidence, and service.",
+    icon: "🛡️",
+    title: "Character Building",
+    desc: "Teaching integrity, discipline, respect, responsibility, emotional strength, and self-control.",
   },
   {
+    icon: "🎤",
+    title: "Leadership Conferences",
+    desc: "Gathering boys and men for powerful teaching, encouragement, prayer, and practical leadership lessons.",
+  },
+  {
+    icon: "📖",
     title: "Faith & Purpose",
-    desc: "Teaching boys to build their lives on values, faith, and positive identity.",
+    desc: "Helping boys build their lives on biblical values, positive identity, and God-given purpose.",
+  },
+  {
+    icon: "💪",
+    title: "Discipline & Responsibility",
+    desc: "Equipping young men to make healthy decisions, serve others, and take responsibility for their future.",
+  },
+  {
+    icon: "🌍",
+    title: "Community Impact",
+    desc: "Raising young men who strengthen families, churches, schools, and communities.",
   },
 ];
 
 export default function BoysToMenPage() {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 4500);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
   return (
-    <main className="bg-white text-slate-900">
-      {/* HERO */}
-      <section className="relative min-h-[85vh] overflow-hidden text-white">
-        <Image
-          src="/images/boys-to-men-hero.jpg"
-          alt="Boys To Men"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center scale-105"
-        />
+    <main className="overflow-hidden bg-[#f8faf7] text-slate-950 antialiased">
+      {/* HERO SLIDESHOW */}
+      <section className="relative isolate min-h-screen overflow-hidden pt-32 text-white md:pt-36">
+        {slides.map((src, index) => (
+          <Image
+            key={src}
+            src={src}
+            alt={`Boys To Men slide ${index + 1}`}
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className={`object-cover object-center transition-opacity duration-1000 ${
+              index === current ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/70 to-red-950/35" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(245,158,11,0.28),transparent_35%)]" />
 
-        <div className="relative z-20 flex min-h-[85vh] items-center px-6 pt-32">
-          <div className="mx-auto w-full max-w-7xl">
-            <div className="max-w-3xl rounded-[2rem] border border-white/10 bg-black/25 p-8 shadow-2xl backdrop-blur-sm md:p-10">
-              <p className="text-sm font-bold uppercase tracking-[0.28em] text-amber-300">
-                Impact Generation Global
-              </p>
-
-              <h1 className="mt-5 text-5xl font-black leading-[0.95] md:text-7xl">
+        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-128px)] max-w-7xl items-center px-6 pb-20">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-amber-300" />
+              <span className="text-xs font-black uppercase tracking-[0.25em] text-amber-200">
                 Boys To Men
-              </h1>
+              </span>
+            </div>
 
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-100">
-                Raising responsible, confident, disciplined, and purpose-driven
-                young men through mentorship, leadership training, character
-                development, and faith-based guidance.
-              </p>
+            <h1 className="mt-7 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+              Raising responsible young men with character, faith, and purpose.
+            </h1>
 
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <Link
-                  href="/donate"
-                  className="rounded-full bg-amber-500 px-8 py-4 text-center font-bold text-white shadow-xl transition hover:bg-amber-600"
-                >
-                  Support The Program
-                </Link>
+            <p className="mt-6 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg md:text-xl">
+              Boys To Men mentors and equips young men through leadership
+              training, character development, discipline, faith-based guidance,
+              and positive role models.
+            </p>
 
-                <Link
-                  href="/contact"
-                  className="rounded-full border border-white/30 bg-white/10 px-8 py-4 text-center font-bold text-white backdrop-blur transition hover:bg-white/20"
-                >
-                  Partner With Us
-                </Link>
-              </div>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a
+                href={PAYPAL_DONATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-red-600 px-8 py-4 text-center font-black text-white shadow-xl transition hover:-translate-y-1 hover:bg-red-700"
+              >
+                Support Boys To Men
+              </a>
+
+              <Link
+                href="/contact"
+                className="rounded-full border border-white/25 bg-white/10 px-8 py-4 text-center font-black text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/20"
+              >
+                Partner With Us
+              </Link>
             </div>
           </div>
         </div>
+
+        <button
+          type="button"
+          onClick={prevSlide}
+          aria-label="Previous Boys To Men photo"
+          className="absolute bottom-8 right-24 z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-2xl backdrop-blur transition hover:bg-white/20 md:flex"
+        >
+          ‹
+        </button>
+
+        <button
+          type="button"
+          onClick={nextSlide}
+          aria-label="Next Boys To Men photo"
+          className="absolute bottom-8 right-8 z-20 hidden h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-white/10 text-2xl backdrop-blur transition hover:bg-white/20 md:flex"
+        >
+          ›
+        </button>
+
+        <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setCurrent(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`h-2.5 rounded-full transition-all ${
+                index === current ? "w-8 bg-amber-300" : "w-2.5 bg-white/50"
+              }`}
+            />
+          ))}
+        </div>
       </section>
 
-      {/* ABOUT */}
-      <section className="px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-700">
-            About The Program
-          </p>
-
-          <h2 className="mt-4 max-w-4xl text-4xl font-black md:text-6xl">
-            Guiding boys into responsible manhood
-          </h2>
-
-          <p className="mt-6 max-w-4xl text-lg leading-8 text-slate-600">
-            Boys To Men creates safe spaces where boys are mentored, encouraged,
-            corrected, and equipped with values that shape their future. The
-            program helps young men grow in confidence, discipline, emotional
-            strength, faith, leadership, and positive decision-making.
-          </p>
-
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {highlights.map((item) => (
+      {/* STATS */}
+      <FadeIn>
+        <section className="-mt-14 px-6 pb-12">
+          <div className="relative z-20 mx-auto grid max-w-7xl gap-4 rounded-[2rem] border border-amber-100 bg-white p-5 shadow-2xl sm:grid-cols-2 lg:grid-cols-4">
+            {stats.map((item) => (
               <div
-                key={item}
-                className="group rounded-[2rem] bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition duration-500 hover:-translate-y-3 hover:shadow-[0_30px_80px_rgba(15,23,42,0.16)]"
+                key={item.label}
+                className="rounded-3xl bg-amber-50/70 p-6 text-center"
               >
-                <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-100 text-3xl">
-                  ⭐
-                </div>
-
-                <h3 className="text-2xl font-black text-slate-900">
-                  {item}
-                </h3>
-
-                <p className="mt-4 leading-7 text-slate-600">
-                  Helping boys grow with wisdom, purpose, discipline,
-                  leadership, and direction.
+                <p className="text-3xl font-black text-red-700">
+                  {item.value}
+                </p>
+                <p className="mt-2 text-sm font-bold text-slate-600">
+                  {item.label}
                 </p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </FadeIn>
 
-      {/* FOCUS AREAS */}
-      <section className="bg-slate-50 px-6 py-24">
-        <div className="mx-auto max-w-7xl">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-amber-600">
-            What We Build
-          </p>
+      {/* MISSION */}
+      <FadeIn>
+        <section className="px-6 py-16 sm:py-20">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-red-700">
+                Our Mission
+              </p>
 
-          <h2 className="mt-4 text-4xl font-black md:text-5xl">
-            Mentorship with purpose
-          </h2>
+              <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+                Guiding boys into responsible manhood.
+              </h2>
 
-          <div className="mt-10 grid gap-8 md:grid-cols-3">
-            {focusAreas.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-[2rem] bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition hover:-translate-y-2 hover:shadow-[0_30px_80px_rgba(15,23,42,0.14)]"
-              >
-                <h3 className="text-2xl font-black text-slate-950">
-                  {item.title}
-                </h3>
+              <p className="mt-6 text-base leading-8 text-slate-600 sm:text-lg">
+                Boys To Men creates safe spaces where boys are mentored,
+                encouraged, corrected, and equipped with values that shape their
+                future.
+              </p>
 
-                <p className="mt-4 leading-7 text-slate-600">{item.desc}</p>
+              <p className="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+                Through mentorship, teaching, leadership training, and
+                faith-based guidance, we help young men grow in confidence,
+                discipline, emotional strength, and positive decision-making.
+              </p>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-amber-200 to-red-200 blur-2xl" />
+              <div className="relative h-[340px] overflow-hidden rounded-[2rem] shadow-2xl sm:h-[480px]">
+                <Image
+                  src="/images/boys-to-men/boys-to-men-2.jpg"
+                  alt="Boys To Men mentorship"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
               </div>
-            ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </FadeIn>
 
-      {/* AUTO INFINITE SCROLL GALLERY */}
-      <section className="bg-white py-24 overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6">
-          <p className="text-sm font-bold uppercase tracking-[0.25em] text-amber-600">
-            Program Gallery
-          </p>
+      {/* WHAT WE DO */}
+      <FadeIn>
+        <section className="bg-white px-6 py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-red-700">
+                What We Build
+              </p>
 
-          <h2 className="mt-4 text-4xl font-black md:text-5xl">
-            Moments From Boys To Men
-          </h2>
+              <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+                Mentorship with purpose.
+              </h2>
 
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-slate-600">
-            A glimpse of mentorship, learning, fellowship, and transformation.
-          </p>
-        </div>
+              <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+                Boys To Men combines mentorship, leadership, character building,
+                faith, discipline, and service.
+              </p>
+            </div>
 
-        <div className="mt-12 overflow-hidden">
-          <div className="gallery-track flex">
-            {[...Array(2)].flatMap((_, set) =>
-              [1, 2, 3, 4, 5, 6].map((num) => (
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {focusAreas.map((item) => (
                 <div
-                  key={`${set}-${num}`}
-                  className="relative mx-4 h-[420px] w-[340px] flex-shrink-0 overflow-hidden rounded-[2rem] shadow-2xl"
+                  key={item.title}
+                  className="rounded-[2rem] border border-slate-100 bg-[#f8faf7] p-7 shadow-sm transition hover:-translate-y-2 hover:bg-white hover:shadow-2xl"
                 >
-                  <Image
-                    src={`/images/boys-to-men-${num}.jpg`}
-                    alt={`Boys To Men ${num}`}
-                    fill
-                    sizes="340px"
-                    className="object-cover"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-                  <div className="absolute bottom-6 left-6">
-                    <p className="text-xs uppercase tracking-widest text-white/70">
-                      Boys To Men
-                    </p>
-
-                    <h3 className="text-xl font-black text-white">
-                      Impact Generation Global
-                    </h3>
-                  </div>
+                  <div className="text-4xl">{item.icon}</div>
+                  <h3 className="mt-5 text-2xl font-black">{item.title}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{item.desc}</p>
                 </div>
-              ))
-            )}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </FadeIn>
 
-      {/* CTA */}
-      <section className="bg-amber-500 px-6 py-20 text-white">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row">
-          <div>
-            <h2 className="text-4xl font-black md:text-5xl">
-              Help us raise responsible young men
+      {/* CONFERENCE SECTION */}
+      <FadeIn>
+        <section className="px-6 py-20">
+          <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[2rem] bg-slate-950 shadow-2xl lg:grid-cols-2">
+            <div className="relative min-h-[460px]">
+              <Image
+                src="/images/boys-to-men/boys-to-men-hero.jpg"
+                alt="The Boys 2 Men Conference"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+
+            <div className="p-8 text-white sm:p-12 lg:p-14">
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-amber-300">
+                Conference Highlight
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">
+                The Boys 2 Men Conference
+              </h2>
+
+              <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+                The Boys 2 Men Conference gathers speakers, mentors, leaders,
+                and young men for teaching, encouragement, discipleship,
+                mentorship, and personal transformation.
+              </p>
+
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {[
+                  "Mentorship",
+                  "Faith & identity",
+                  "Leadership",
+                  "Character building",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl border border-white/10 bg-white/10 px-5 py-4"
+                  >
+                    <span className="font-semibold text-white">✓ {item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </FadeIn>
+
+      {/* JOURNEY */}
+      <FadeIn>
+        <section className="bg-amber-50 px-6 py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 text-center">
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-red-700">
+                The Journey
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+                From boyhood to responsible manhood.
+              </h2>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-4">
+              {[
+                ["1", "Identity", "Helping boys understand who they are."],
+                ["2", "Discipline", "Building self-control and wise choices."],
+                ["3", "Leadership", "Teaching service, courage, and responsibility."],
+                ["4", "Purpose", "Guiding young men toward God-given destiny."],
+              ].map(([number, title, desc]) => (
+                <div
+                  key={title}
+                  className="rounded-[2rem] bg-white p-7 text-center shadow-lg"
+                >
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-700 text-xl font-black text-white">
+                    {number}
+                  </div>
+                  <h3 className="mt-5 text-2xl font-black">{title}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </FadeIn>
+
+      {/* GALLERY SLIDER */}
+      <FadeIn>
+        <section className="bg-white px-6 py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 text-center">
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-red-700">
+                Photo Moments
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+                Boys To Men in pictures.
+              </h2>
+
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+                Use the slider to view conference moments, mentorship,
+                teaching, and leadership training.
+              </p>
+            </div>
+
+            <div className="relative overflow-hidden rounded-[2rem] bg-slate-950 p-4 shadow-2xl sm:p-6">
+              <div className="relative h-[300px] overflow-hidden rounded-[1.5rem] sm:h-[460px] lg:h-[560px]">
+                {slides.map((src, index) => (
+                  <Image
+                    key={src}
+                    src={src}
+                    alt={`Boys To Men gallery slide ${index + 1}`}
+                    fill
+                    sizes="100vw"
+                    className={`object-cover transition-opacity duration-700 ${
+                      index === current ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={prevSlide}
+                aria-label="Previous gallery photo"
+                className="absolute left-6 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-2xl font-black text-slate-950 shadow-xl transition hover:bg-amber-300"
+              >
+                ‹
+              </button>
+
+              <button
+                type="button"
+                onClick={nextSlide}
+                aria-label="Next gallery photo"
+                className="absolute right-6 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-2xl font-black text-slate-950 shadow-xl transition hover:bg-amber-300"
+              >
+                ›
+              </button>
+
+              <div className="mt-5 flex justify-center gap-2">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => setCurrent(index)}
+                    aria-label={`Show gallery photo ${index + 1}`}
+                    className={`h-2.5 rounded-full transition-all ${
+                      index === current ? "w-8 bg-amber-300" : "w-2.5 bg-white/40"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      </FadeIn>
+
+      {/* DONATE CTA */}
+      <FadeIn>
+        <section className="px-6 py-20">
+          <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-red-700 via-red-800 to-slate-950 p-8 text-center text-white shadow-2xl sm:p-12">
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-amber-300">
+              Support Boys To Men
+            </p>
+
+            <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+              Help us raise responsible, faith-filled young men.
             </h2>
 
-            <p className="mt-4 max-w-2xl text-lg leading-8 text-amber-50">
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-red-50 sm:text-lg">
               Your support helps provide mentorship sessions, materials,
-              transport, meals, and safe learning spaces for boys.
+              transportation, meals, safe learning spaces, and leadership
+              training opportunities for boys.
             </p>
-          </div>
 
-          <Link
-            href="/donate"
-            className="rounded-full bg-white px-8 py-4 font-bold text-amber-700 shadow-xl transition hover:-translate-y-1"
-          >
-            Donate Today
-          </Link>
-        </div>
-      </section>
+            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+              <a
+                href={PAYPAL_DONATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-white px-8 py-4 font-black text-red-800 transition hover:-translate-y-1"
+              >
+                Donate with PayPal
+              </a>
+
+              <a
+                href={GOFUNDME_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/25 bg-white/10 px-8 py-4 font-black text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/20"
+              >
+                Support on GoFundMe
+              </a>
+            </div>
+          </div>
+        </section>
+      </FadeIn>
     </main>
   );
 }

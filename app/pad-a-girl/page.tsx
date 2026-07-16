@@ -2,373 +2,423 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import FadeIn from "@/components/FadeIn";
+
+const PAYPAL_DONATE_LINK =
+  "https://www.paypal.com/donate/?hosted_button_id=34HPDHC4M7YZA";
+
+const GOFUNDME_LINK = "https://gofund.me/41ae9b3bf";
+
+const stats = [
+  { value: "1,000+", label: "Girls encouraged" },
+  { value: "25+", label: "School outreaches" },
+  { value: "40+", label: "Volunteers & supporters" },
+  { value: "Dignity", label: "At the center" },
+];
+
+const workAreas = [
+  {
+    icon: "❤️",
+    title: "Menstrual Hygiene Support",
+    desc: "Providing dignity kits and practical support so girls can stay confident and focused.",
+  },
+  {
+    icon: "🎓",
+    title: "School Outreach",
+    desc: "Reaching students through school visits, teaching sessions, and encouragement.",
+  },
+  {
+    icon: "🤝",
+    title: "Mentorship",
+    desc: "Creating safe spaces where girls can ask questions, grow, and discover purpose.",
+  },
+  {
+    icon: "🌍",
+    title: "Community Engagement",
+    desc: "Working with families, schools, and communities to strengthen dignity and care.",
+  },
+  {
+    icon: "📖",
+    title: "Life Skills",
+    desc: "Helping girls develop confidence, resilience, healthy choices, and leadership.",
+  },
+  {
+    icon: "✝️",
+    title: "Faith & Encouragement",
+    desc: "Sharing hope, identity, and spiritual encouragement rooted in the love of Christ.",
+  },
+];
+
+const galleryImages = [
+  "/images/pad-a-girl/pad-a-girl-2.jpg",
+  "/images/pad-a-girl/pad-a-girl-3.jpg",
+  "/images/pad-a-girl/pad-a-girl-4.jpg",
+  "/images/pad-a-girl/pad-a-girl-5.jpg",
+  "/images/pad-a-girl/pad-a-girl-7.jpg",
+  "/images/pad-a-girl/pad-a-girl-8.jpg",
+  "/images/pad-a-girl/pad-a-girl-9.jpg",
+  "/images/pad-a-girl/pad-a-girl-10.jpg",
+  "/images/pad-a-girl/pad-a-girl-11.jpg",
+  "/images/pad-a-girl/pad-a-girl-12.jpg",
+  "/images/pad-a-girl/pad-a-girl-13.jpg",
+  "/images/pad-a-girl/pad-a-girl-14.jpg",
+  "/images/pad-a-girl/pad-a-girl-16.jpg",
+  "/images/pad-a-girl/pad-a-girl-17.jpg",
+];
 
 export default function PadAGirlPage() {
-  const heroImage = "/images/pad-a-girl-hero.jpg";
-
-  const gallery = [
-    "/images/pad-a-girl-school-session-1.jpg",
-    "/images/pad-a-girl-school-session-2.jpg",
-    "/images/pad-a-girl-community-outreach.jpg",
-    "/images/pad-a-girl-community-engagement.jpg",
-    "/images/pad-a-girl-youth-ambassadors.jpg",
-    "/images/pad-a-girl-empowerment-team.jpg",
-    "/images/pad-a-girl-mentorship.jpg",
-  ];
-
-  const [lightboxIndex, setLightboxIndex] = useState(-1);
-
   return (
-    <>
-      <main className="bg-white text-slate-900">
-        {/* HERO */}
-        <section className="relative min-h-[85vh] overflow-hidden text-white">
-          <Image
-            src={heroImage}
-            alt="Pad a Girl"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center scale-105"
-          />
+    <main className="overflow-hidden bg-[#f8faf7] text-slate-950 antialiased">
+      <section className="relative isolate min-h-screen overflow-hidden pt-32 text-white md:pt-36">
+        <Image
+          src="/images/pad-a-girl/pad-a-girl-hero.jpg"
+          alt="Pad A Girl outreach"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
 
-          <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/60 to-emerald-900/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/70 to-emerald-950/45" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(245,158,11,0.28),transparent_35%)]" />
 
-          <div className="relative z-20 flex min-h-[85vh] items-center">
-            <div className="mx-auto w-full max-w-7xl px-6">
-              <div className="max-w-3xl">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400" />
-                  <span className="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-200">
-                    Impact Generation Global
-                  </span>
-                </div>
-
-                <h1 className="mt-6 text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
-                  Pad a Girl
-                </h1>
-
-                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200 md:text-xl">
-                  Restoring dignity and empowering girls through hygiene
-                  support, education, mentorship, and community care.
-                </p>
-
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                  <Link
-                    href="/donate"
-                    className="inline-flex justify-center rounded-full bg-white px-8 py-4 font-bold text-emerald-800 shadow-xl transition hover:-translate-y-1"
-                  >
-                    Donate Today
-                  </Link>
-
-                  <Link
-                    href="/contact"
-                    className="inline-flex justify-center rounded-full border border-white/20 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-md transition hover:bg-white/20"
-                  >
-                    Get Involved
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ABOUT */}
-        <section className="px-6 py-20">
-          <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-600">
-                Dignity • Health • Education
-              </p>
-
-              <h2 className="mt-4 text-4xl font-bold md:text-5xl">
-                Why Pad a Girl Matters
-              </h2>
-
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-700">
-                Many girls miss school and opportunities because they lack
-                access to menstrual hygiene support and education. Pad a Girl
-                helps girls stay healthy, confident, and in school through
-                practical care, mentorship, and empowerment.
-              </p>
-
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-                  <h3 className="font-bold">Hygiene Support</h3>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Providing pads, hygiene education, and dignity-focused
-                    support for girls.
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm">
-                  <h3 className="font-bold">Mentorship</h3>
-                  <p className="mt-2 text-sm text-slate-600">
-                    Creating safe spaces where girls receive guidance,
-                    encouragement, and confidence.
-                  </p>
-                </div>
-              </div>
+        <div className="relative z-10 mx-auto flex min-h-[calc(100vh-128px)] max-w-7xl items-center px-6 pb-20">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
+              <span className="h-2 w-2 rounded-full bg-amber-300" />
+              <span className="text-xs font-black uppercase tracking-[0.25em] text-amber-200">
+                Pad A Girl
+              </span>
             </div>
 
-            <div className="relative h-[360px] overflow-hidden rounded-[2rem] shadow-xl md:h-[460px]">
-              <Image
-                src="/images/pad-a-girl-school-session-1.jpg"
-                alt="Pad a Girl school session"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
+            <h1 className="mt-7 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+              Restoring dignity. Keeping girls in school. Building confidence.
+            </h1>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-            </div>
-          </div>
-        </section>
+            <p className="mt-6 max-w-3xl text-base leading-8 text-slate-200 sm:text-lg md:text-xl">
+              Pad A Girl supports girls with menstrual hygiene products,
+              mentorship, life-skills education, and faith-filled encouragement
+              so they can walk with dignity, confidence, and hope.
+            </p>
 
-        {/* IMPACT STATS */}
-        <section className="bg-slate-50 px-6 py-16">
-          <div className="mx-auto grid max-w-7xl gap-6 sm:grid-cols-3">
-            {[
-              ["1,200+", "Girls Supported"],
-              ["150+", "School Sessions"],
-              ["80+", "Community Partners"],
-            ].map(([value, label]) => (
-              <div
-                key={label}
-                className="rounded-3xl border border-slate-100 bg-white p-8 text-center shadow-sm"
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a
+                href={PAYPAL_DONATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-red-600 px-8 py-4 text-center font-black text-white shadow-xl transition hover:-translate-y-1 hover:bg-red-700"
               >
-                <div className="text-4xl font-black text-emerald-700">
-                  {value}
-                </div>
-                <div className="mt-2 text-sm text-slate-600">{label}</div>
+                Support Pad A Girl
+              </a>
+
+              <Link
+                href="/contact"
+                className="rounded-full border border-white/25 bg-white/10 px-8 py-4 text-center font-black text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/20"
+              >
+                Partner With Us
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <FadeIn>
+        <section className="-mt-14 px-6 pb-12">
+          <div className="relative z-20 mx-auto grid max-w-7xl gap-4 rounded-[2rem] border border-amber-100 bg-white p-5 shadow-2xl sm:grid-cols-2 lg:grid-cols-4">
+            {stats.map((item) => (
+              <div
+                key={item.label}
+                className="rounded-3xl bg-amber-50/70 p-6 text-center"
+              >
+                <p className="text-3xl font-black text-emerald-700">
+                  {item.value}
+                </p>
+                <p className="mt-2 text-sm font-bold text-slate-600">
+                  {item.label}
+                </p>
               </div>
             ))}
           </div>
         </section>
+      </FadeIn>
 
-        {/* CORE PILLARS */}
-        <section className="px-6 py-20">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-12 text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-600">
-                Our Focus
+      <FadeIn>
+        <section className="px-6 py-16 sm:py-20">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-emerald-700">
+                Our Mission
               </p>
 
-              <h2 className="mt-3 text-4xl font-bold md:text-5xl">
-                What We Provide
+              <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+                Every girl deserves dignity, confidence, education, and hope.
               </h2>
+
+              <p className="mt-6 text-base leading-8 text-slate-600 sm:text-lg">
+                Through Pad A Girl, Impact Generation Global provides menstrual
+                hygiene support, mentorship, life-skills training, and spiritual
+                encouragement to help girls stay in school and thrive.
+              </p>
+
+              <p className="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+                We believe dignity is not a luxury. It is part of helping young
+                women understand their value, build confidence, and step into
+                their God-given purpose.
+              </p>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
-              {[
-                {
-                  icon: "🩸",
-                  title: "Dignity Kits",
-                  desc: "Practical hygiene support that helps girls attend school with confidence.",
-                },
-                {
-                  icon: "📚",
-                  title: "Health Education",
-                  desc: "Teaching girls about menstrual health, self-care, and personal dignity.",
-                },
-                {
-                  icon: "🤝",
-                  title: "Safe Mentorship",
-                  desc: "Creating safe spaces for guidance, encouragement, and emotional support.",
-                },
-              ].map((item) => (
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-amber-200 to-emerald-200 blur-2xl" />
+              <div className="relative h-[340px] overflow-hidden rounded-[2rem] shadow-2xl sm:h-[480px]">
+                <Image
+                  src="/images/pad-a-girl/pad-a-girl-community-engagement.jpg"
+                  alt="Pad A Girl community engagement"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      </FadeIn>
+
+      <FadeIn>
+        <section className="bg-white px-6 py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-emerald-700">
+                What We Do
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black leading-tight tracking-tight sm:text-4xl lg:text-5xl">
+                Practical care with lasting impact.
+              </h2>
+
+              <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+                Pad A Girl combines practical dignity support with mentorship,
+                education, and encouragement.
+              </p>
+            </div>
+
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {workAreas.map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-3xl border border-slate-100 bg-white p-8 shadow-sm transition hover:-translate-y-2 hover:shadow-xl"
+                  className="rounded-[2rem] border border-slate-100 bg-[#f8faf7] p-7 shadow-sm transition hover:-translate-y-2 hover:bg-white hover:shadow-2xl"
                 >
                   <div className="text-4xl">{item.icon}</div>
-                  <h3 className="mt-5 text-2xl font-bold">{item.title}</h3>
-                  <p className="mt-3 leading-relaxed text-slate-600">
-                    {item.desc}
-                  </p>
+                  <h3 className="mt-5 text-2xl font-black">{item.title}</h3>
+                  <p className="mt-3 leading-7 text-slate-600">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
+      </FadeIn>
 
-        {/* GALLERY */}
-        <section className="overflow-hidden bg-slate-50 px-6 py-20">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-10 text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-600">
-                Program Moments
+      <FadeIn>
+        <section className="px-6 py-20">
+          <div className="mx-auto grid max-w-7xl overflow-hidden rounded-[2rem] bg-slate-950 shadow-2xl lg:grid-cols-2">
+            <div className="relative min-h-[360px]">
+              <Image
+                src="/images/pad-a-girl/pad-a-girl-school-session-1.jpg"
+                alt="Pad A Girl school session"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+
+            <div className="p-8 text-white sm:p-12 lg:p-14">
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-amber-300">
+                Featured Story
               </p>
 
-              <h2 className="mt-3 text-4xl font-bold md:text-5xl">
-                Pad a Girl In Action
+              <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl">
+                More than pads. It is dignity, identity, and hope.
               </h2>
 
-              <p className="mx-auto mt-4 max-w-2xl text-slate-600">
-                Moments of mentorship, school engagement, community outreach,
-                and girls’ empowerment.
+              <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+                Many girls miss school or lose confidence because they lack the
+                basic support they need. Pad A Girl helps restore confidence by
+                meeting practical needs and creating space for honest
+                conversations, mentorship, and encouragement.
+              </p>
+
+              <p className="mt-4 text-base leading-8 text-slate-300 sm:text-lg">
+                Every outreach is an opportunity to remind girls that they are
+                seen, valued, loved, and capable of building a meaningful future.
+              </p>
+            </div>
+          </div>
+        </section>
+      </FadeIn>
+
+      <FadeIn>
+        <section className="bg-white px-6 py-20">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 text-center">
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-emerald-700">
+                Gallery
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+                Moments of dignity and hope.
+              </h2>
+
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
+                A glimpse of outreach, school sessions, mentorship, and
+                community engagement through Pad A Girl.
               </p>
             </div>
 
-            <div className="gallery-wrapper">
-              <div className="gallery-track">
-                {[...gallery, ...gallery].map((src, index) => (
-                  <button
-                    key={`${src}-${index}`}
-                    onClick={() => setLightboxIndex(index % gallery.length)}
-                    className="gallery-card"
+            <div className="columns-1 gap-5 sm:columns-2 lg:columns-3">
+              {galleryImages.map((src, index) => (
+                <div
+                  key={src}
+                  className="mb-5 break-inside-avoid overflow-hidden rounded-[1.5rem] bg-slate-100 shadow-lg transition hover:-translate-y-1 hover:shadow-2xl"
+                >
+                  <div
+                    className={`relative ${
+                      index % 5 === 0
+                        ? "h-[360px]"
+                        : index % 3 === 0
+                        ? "h-[300px]"
+                        : "h-[240px]"
+                    }`}
                   >
                     <Image
                       src={src}
-                      alt={`Pad a Girl ${index + 1}`}
+                      alt={`Pad A Girl gallery image ${index + 1}`}
                       fill
-                      sizes="320px"
-                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover transition duration-500 hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 transition hover:opacity-100" />
-                  </button>
-                ))}
-              </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
+      </FadeIn>
 
-        {/* TESTIMONIALS */}
-        <section className="px-6 py-20">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-12 text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-emerald-600">
-                Voices of Impact
+
+      {/* PAD A GIRL VIDEO */}
+      <FadeIn>
+        <section className="bg-slate-950 px-6 py-20 text-white">
+          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.25em] text-amber-300">
+                Watch The Story
               </p>
 
-              <h2 className="mt-3 text-4xl font-bold md:text-5xl">
-                Restoring Confidence
+              <h2 className="mt-4 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+                See Pad A Girl in action.
               </h2>
+
+              <p className="mt-6 text-base leading-8 text-slate-300 sm:text-lg">
+                Watch how Pad A Girl is helping restore dignity, encourage
+                confidence, support school attendance, and remind girls that
+                their future matters.
+              </p>
+
+              <div className="mt-8">
+                <a
+                  href="https://youtu.be/vmWsK6x1yl4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex rounded-full bg-red-600 px-8 py-4 font-black text-white transition hover:-translate-y-1 hover:bg-red-700"
+                >
+                  Watch on YouTube
+                </a>
+              </div>
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-sm">
-                <p className="text-lg leading-relaxed text-slate-700">
-                  “When girls are supported with dignity and education, they
-                  gain confidence to stay in school and pursue their future.”
-                </p>
-                <h4 className="mt-5 font-bold">Community Mentor</h4>
+            <div className="rounded-[2rem] border border-white/10 bg-white/5 p-5 shadow-2xl backdrop-blur sm:p-8">
+              <div className="overflow-hidden rounded-3xl shadow-2xl">
+                <div className="aspect-video">
+                  <iframe
+                    className="h-full w-full"
+                    src="https://www.youtube.com/embed/vmWsK6x1yl4"
+                    title="Pad A Girl Ministry Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
               </div>
 
-              <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-sm">
-                <p className="text-lg leading-relaxed text-slate-700">
-                  “Pad a Girl creates safe spaces where young girls can learn,
-                  ask questions, and feel valued.”
-                </p>
-                <h4 className="mt-5 font-bold">Program Supporter</h4>
-              </div>
+              <h3 className="mt-7 text-2xl font-black">
+                Pad A Girl Ministry Video
+              </h3>
+
+              <p className="mt-3 leading-7 text-slate-300">
+                A visual story of dignity, mentorship, outreach, and hope
+                through Impact Generation Global.
+              </p>
             </div>
           </div>
         </section>
+      </FadeIn>
 
-        {/* CTA */}
-        <section className="bg-emerald-700 px-6 py-20 text-center text-white">
-          <h2 className="text-4xl font-bold md:text-5xl">
-            Help Keep Girls in School
-          </h2>
+      <FadeIn>
+        <section className="bg-amber-50 px-6 py-20">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-emerald-700">
+              Why It Matters
+            </p>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg text-emerald-50">
-            Your gift provides hygiene support, education, mentorship, and
-            confidence-building opportunities for girls.
-          </p>
+            <blockquote className="mt-5 text-2xl font-black leading-tight text-slate-950 sm:text-3xl lg:text-4xl">
+              “Dignity support helps a girl stay in school, grow in confidence,
+              and remember that her future matters.”
+            </blockquote>
 
-          <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-            <Link
-              href="/donate"
-              className="rounded-full bg-white px-8 py-4 font-bold text-emerald-800 transition hover:-translate-y-1"
-            >
-              Donate Today
-            </Link>
-
-            <Link
-              href="/contact"
-              className="rounded-full border border-white/30 px-8 py-4 font-bold text-white transition hover:bg-white/10"
-            >
-              Partner With Us
-            </Link>
+            <p className="mt-6 text-lg font-bold text-emerald-700">
+              Impact Generation Global
+            </p>
           </div>
         </section>
-      </main>
+      </FadeIn>
 
-      {/* LIGHTBOX */}
-      {lightboxIndex >= 0 && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-          onClick={() => setLightboxIndex(-1)}
-        >
-          <div className="relative w-full max-w-4xl overflow-hidden rounded-xl">
-            <button
-              onClick={() => setLightboxIndex(-1)}
-              className="absolute right-3 top-3 z-20 rounded-full bg-white/20 px-3 py-2 text-white"
-            >
-              ✕
-            </button>
+      <FadeIn>
+        <section className="px-6 py-20">
+          <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-700 via-emerald-800 to-slate-950 p-8 text-center text-white shadow-2xl sm:p-12">
+            <p className="text-sm font-black uppercase tracking-[0.25em] text-amber-300">
+              Support Pad A Girl
+            </p>
 
-            <Image
-              src={gallery[lightboxIndex]}
-              alt={`Preview ${lightboxIndex + 1}`}
-              width={1200}
-              height={800}
-              className="bg-black object-contain"
-            />
+            <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">
+              Help restore dignity and keep girls moving forward.
+            </h2>
+
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-8 text-emerald-50 sm:text-lg">
+              Your support helps provide hygiene products, school outreach,
+              mentorship, life-skills education, and encouragement for girls in
+              Zambia.
+            </p>
+
+            <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+              <a
+                href={PAYPAL_DONATE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-white px-8 py-4 font-black text-emerald-800 transition hover:-translate-y-1"
+              >
+                Donate with PayPal
+              </a>
+
+              <a
+                href={GOFUNDME_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/25 bg-white/10 px-8 py-4 font-black text-white backdrop-blur transition hover:-translate-y-1 hover:bg-white/20"
+              >
+                Support on GoFundMe
+              </a>
+            </div>
           </div>
-        </div>
-      )}
-
-      <style jsx>{`
-        .gallery-wrapper {
-          width: 100%;
-          overflow: hidden;
-        }
-
-        .gallery-track {
-          display: flex;
-          width: max-content;
-          animation: scrollGallery 38s linear infinite;
-        }
-
-        .gallery-card {
-          position: relative;
-          width: 360px;
-          height: 240px;
-          margin-right: 20px;
-          flex-shrink: 0;
-          overflow: hidden;
-          border-radius: 24px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
-        }
-
-        .gallery-wrapper:hover .gallery-track {
-          animation-play-state: paused;
-        }
-
-        @keyframes scrollGallery {
-          from {
-            transform: translateX(0);
-          }
-
-          to {
-            transform: translateX(-50%);
-          }
-        }
-
-        @media (max-width: 768px) {
-          .gallery-card {
-            width: 280px;
-            height: 190px;
-          }
-
-          .gallery-track {
-            animation-duration: 24s;
-          }
-        }
-      `}</style>
-    </>
+        </section>
+      </FadeIn>
+    </main>
   );
 }
