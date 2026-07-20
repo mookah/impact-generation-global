@@ -8,7 +8,7 @@ import FadeIn from "@/components/FadeIn";
 const PAYPAL_DONATE_LINK =
   "https://www.paypal.com/donate/?hosted_button_id=34HPDHC4M7YZA";
 
-const GOFUNDME_LINK = "https://gofund.me/41ae9b3bf";
+const GOFUNDME_LINK = "https://gofund.me/7f8b19b5e";
 
 const slides = [
   "/images/youth-camps/youth-camps-hero.jpg",

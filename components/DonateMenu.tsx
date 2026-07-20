@@ -21,7 +21,7 @@ export default function DonateMenu() {
         </a>
 
         <a
-          href="https://gofund.me/41ae9b3bf"
+          href="https://gofund.me/7f8b19b5e"
           target="_blank"
           rel="noopener noreferrer"
           className="block border-t border-slate-100 px-6 py-4 font-semibold text-slate-800 transition hover:bg-emerald-50"
