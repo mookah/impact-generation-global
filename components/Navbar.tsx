@@ -7,7 +7,7 @@ import { useState } from "react";
 const PAYPAL_DONATE_LINK =
   "https://www.paypal.com/donate/?hosted_button_id=34HPDHC4M7YZA";
 
-const GOFUNDME_LINK = "https://gofund.me/41ae9b3bf";
+const GOFUNDME_LINK = "https://gofund.me/7f8b19b5e";
 
 const programs = [
   { href: "/boys-to-men", label: "Boys To Men" },
