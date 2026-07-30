@@ -1,0 +1,101 @@
+ .gitignore                                         |   3 [32m+[m
+ app/boys-to-men/page.tsx                           | 573 [32m+++++++++++[m[31m-----[m
+ app/contact/page.tsx                               | 151 [32m+++[m[31m--[m
+ app/donate/page.tsx                                | 454 [32m+++++++++[m[31m----[m
+ app/globals.css                                    | 535 [32m++++++++++++++[m[31m-[m
+ app/newsletter.zip                                 | Bin [31m0[m -> [32m8565[m bytes
+ app/newsletter/PrintButton.tsx                     |  17 [32m+[m
+ app/newsletter/newsletter.module.css               | 742 [32m+++++++++++++++++++++[m
+ app/newsletter/page.tsx                            | 561 [32m+++++++++++[m[31m-----[m
+ app/pad-a-girl/page.tsx                            | 650 [32m+++++++++[m[31m---------[m
+ app/page.tsx                                       | 446 [32m++++++++++[m[31m---[m
+ app/school-ministry/page.tsx                       | 493 [32m+++++++++++++[m[31m-[m
+ app/youth-camps/page.tsx                           | 491 [32m+++++++++++++[m[31m-[m
+ components/DonateMenu.tsx                          |  47 [32m++[m
+ components/Footer.tsx                              | 202 [32m+++++[m[31m-[m
+ components/Navbar.tsx                              | 213 [32m++++[m[31m--[m
+ package-lock.json                                  |  22 [32m+[m[31m-[m
+ package.json                                       |   4 [32m+[m[31m-[m
+ public/images/andy-rovengo-memorial.jpg            | Bin [31m0[m -> [32m672849[m bytes
+ .../boys-to-men-2.jpg}                             | Bin
+ .../boys-to-men-3.jpg}                             | Bin
+ .../boys-to-men-4.jpg}                             | Bin
+ public/images/{ => boys-to-men}/boys-to-men-5.jpg  | Bin
+ .../boys-to-men-6.jpg}                             | Bin
+ .../boys-to-men-7.jpg}                             | Bin
+ public/images/boys-to-men/boys-to-men-hero.jpg     | Bin [31m0[m -> [32m109634[m bytes
+ public/images/boys-to-men/cycle-for-change.jpg.jpg | Bin [31m0[m -> [32m564866[m bytes
+ public/images/newsletter/boys-to-men-1.jpg         | Bin [31m0[m -> [32m254881[m bytes
+ public/images/newsletter/boys-to-men-2.jpg         | Bin [31m0[m -> [32m426248[m bytes
+ public/images/newsletter/boys-to-men-3.jpg         | Bin [31m0[m -> [32m324841[m bytes
+ public/images/newsletter/boys-to-men-4.jpg         | Bin [31m0[m -> [32m290850[m bytes
+ .../boys-to-men-5.jpg}                             | Bin
+ public/images/newsletter/boys-to-men-6.jpg         | Bin [31m0[m -> [32m457555[m bytes
+ public/images/newsletter/boys-to-men-hero.jpg      | Bin [31m0[m -> [32m203255[m bytes
+ .../images/{ => newsletter}/cycle-for-change-1.jpg | Bin
+ .../{ => newsletter}/cycle-for-change-10.jpg       | Bin
+ .../{ => newsletter}/cycle-for-change-11.jpg       | Bin
+ .../{ => newsletter}/cycle-for-change-12.jpg       | Bin
+ .../images/{ => newsletter}/cycle-for-change-2.jpg | Bin
+ .../images/{ => newsletter}/cycle-for-change-3.jpg | Bin
+ .../images/{ => newsletter}/cycle-for-change-4.jpg | Bin
+ .../images/{ => newsletter}/cycle-for-change-5.jpg | Bin
+ .../images/{ => newsletter}/cycle-for-change-6.jpg | Bin
+ .../images/{ => newsletter}/cycle-for-change-7.jpg | Bin
+ .../images/{ => newsletter}/cycle-for-change-8.jpg | Bin
+ .../images/{ => newsletter}/cycle-for-change-9.jpg | Bin
+ .../{ => newsletter}/cycle-for-change-hero.jpg     | Bin
+ public/images/newsletter/images.zip                | Bin [31m0[m -> [32m8030240[m bytes
+ public/images/newsletter/july-2026.rar             | Bin [31m0[m -> [32m8048125[m bytes
+ public/images/newsletter/july-2026/andy.jpg        | Bin [31m0[m -> [32m2792272[m bytes
+ .../newsletter/july-2026/cycle-for-change.jpg      | Bin [31m0[m -> [32m564866[m bytes
+ public/images/newsletter/july-2026/donate-qr.png   | Bin [31m0[m -> [32m20093[m bytes
+ public/images/newsletter/july-2026/joe.jpg         | Bin [31m0[m -> [32m1837770[m bytes
+ public/images/newsletter/july-2026/land.jpg        | Bin [31m0[m -> [32m601411[m bytes
+ public/images/newsletter/july-2026/logo.jpg        | Bin [31m0[m -> [32m170530[m bytes
+ public/images/newsletter/july-2026/pad-a-girl.jpg  | Bin [31m0[m -> [32m1542240[m bytes
+ .../newsletter/july-2026/prison-ministry.jpg       | Bin [31m0[m -> [32m242615[m bytes
+ .../newsletter/july-2026/school-ministry.jpg       | Bin [31m0[m -> [32m294545[m bytes
+ public/images/{ => newsletter}/newsletter-hero.jpg | Bin
+ public/images/newsletter/newsletter-p1-1.png       | Bin [31m0[m -> [32m13072[m bytes
+ public/images/newsletter/newsletter-p1-2.png       | Bin [31m0[m -> [32m1960934[m bytes
+ public/images/newsletter/newsletter-p1-3.png       | Bin [31m0[m -> [32m2612[m bytes
+ public/images/newsletter/newsletter-p2-1.png       | Bin [31m0[m -> [32m3919847[m bytes
+ public/images/newsletter/newsletter-p3-1.png       | Bin [31m0[m -> [32m3037867[m bytes
+ public/images/newsletter/newsletter-p4-1.png       | Bin [31m0[m -> [32m1497738[m bytes
+ public/images/newsletter/newsletter-p4-2.png       | Bin [31m0[m -> [32m2046006[m bytes
+ public/images/newsletter/newsletter-p4-3.png       | Bin [31m0[m -> [32m1805837[m bytes
+ public/images/newsletter/newsletter-p5-1.png       | Bin [31m0[m -> [32m5290[m bytes
+ public/images/pad-a-girl-hero.jpg                  | Bin [31m282497[m -> [32m0[m bytes
+ public/images/pad-a-girl/pad-a-girl-1.jpg          | Bin [31m0[m -> [32m4929804[m bytes
+ public/images/pad-a-girl/pad-a-girl-10.jpg         | Bin [31m0[m -> [32m3765612[m bytes
+ public/images/pad-a-girl/pad-a-girl-11.jpg         | Bin [31m0[m -> [32m3897676[m bytes
+ public/images/pad-a-girl/pad-a-girl-12.jpg         | Bin [31m0[m -> [32m3222784[m bytes
+ public/images/pad-a-girl/pad-a-girl-13.jpg         | Bin [31m0[m -> [32m3771965[m bytes
+ public/images/pad-a-girl/pad-a-girl-14.jpg         | Bin [31m0[m -> [32m2797078[m bytes
+ public/images/pad-a-girl/pad-a-girl-16.jpg         | Bin [31m0[m -> [32m3250947[m bytes
+ .../pad-a-girl-17.jpg}                             | Bin
+ public/images/pad-a-girl/pad-a-girl-2.jpg          | Bin [31m0[m -> [32m4914216[m bytes
+ public/images/pad-a-girl/pad-a-girl-3.jpg          | Bin [31m0[m -> [32m4580912[m bytes
+ public/images/pad-a-girl/pad-a-girl-4.jpg          | Bin [31m0[m -> [32m5013919[m bytes
+ public/images/pad-a-girl/pad-a-girl-5.jpg          | Bin [31m0[m -> [32m5038924[m bytes
+ public/images/pad-a-girl/pad-a-girl-7.jpg          | Bin [31m0[m -> [32m4678171[m bytes
+ public/images/pad-a-girl/pad-a-girl-8.jpg          | Bin [31m0[m -> [32m5068134[m bytes
+ public/images/pad-a-girl/pad-a-girl-9.jpg          | Bin [31m0[m -> [32m3820743[m bytes
+ .../pad-a-girl-community-engagement.jpg            | Bin
+ .../pad-a-girl-community-outreach.jpg              | Bin
+ public/images/pad-a-girl/pad-a-girl-hero.jpg       | Bin [31m0[m -> [32m4486151[m bytes
+ .../{ => pad-a-girl}/pad-a-girl-mentorship.jpg     | Bin
+ .../pad-a-girl-school-session-1.jpg                | Bin
+ .../pad-a-girl-school-session-2.jpg                | Bin
+ .../pad-a-girl-youth-ambassadors.jpg               | Bin
+ .../images/school-ministry/school-ministry-2.jpg   | Bin [31m0[m -> [32m420964[m bytes
+ .../images/school-ministry/school-ministry-3.jpg   | Bin [31m0[m -> [32m647790[m bytes
+ .../images/school-ministry/school-ministry-4.jpg   | Bin [31m0[m -> [32m653707[m bytes
+ .../images/school-ministry/school-ministry-5.jpg   | Bin [31m0[m -> [32m791292[m bytes
+ .../images/school-ministry/school-ministry-6.jpg   | Bin [31m0[m -> [32m268815[m bytes
+ .../images/school-ministry/school-ministry-7.jpg   | Bin [31m0[m -> [32m723927[m bytes
+ .../images/school-ministry/school-ministry-8.jpg   | Bin [31m0[m -> [32m584240[m bytes
+ .../images/school-ministry/school-ministry-9.jpg   | Bin [31m0[m -> [32m788983[m bytes
+ .../school-ministry/school-ministry-hero.jpg       | Bin [31m0[m -> [32m363182[m bytes
+ public/images/youth-camps/youth-camps-10.jpg       | Bin [31m0[m -> [32m182245
