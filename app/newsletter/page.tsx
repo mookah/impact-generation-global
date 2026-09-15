@@ -3,489 +3,760 @@ import Link from "next/link";
 import styles from "./newsletter.module.css";
 import PrintButton from "./PrintButton";
 
-const programs = [
-  {
-    title: "Annual Youth Camp",
-    text: "Five days away from daily pressures for mentorship, worship, one-on-one conversations and teaching on issues affecting young people.",
-  },
-  {
-    title: "Boys to Men",
-    text: "Focused mentorship that helps boys develop character, responsibility, faith and a healthy understanding of manhood.",
-  },
-  {
-    title: "Pad A Girl",
-    text: "Supporting girls with sanitary pads, dignity education and encouragement so menstruation does not prevent them from attending school.",
-  },
-];
+const ORG = "Impact Generation Global";
+const ISSUE = "AUGUST 2026";
 
-export default function July2026NewsletterPage() {
+export default function AugustNewsletterPage() {
   return (
     <main className={styles.site}>
+      {/* =====================================================
+          WEBSITE CONTROLS
+      ====================================================== */}
       <div className={styles.toolbar}>
         <Link href="/" className={styles.backButton}>
           ← Back Home
         </Link>
+
         <PrintButton className={styles.printButton} />
       </div>
 
       <article className={styles.newsletter}>
-        {/* PAGE 1 */}
-        <section className={`${styles.page} ${styles.premiumCover}`}>
-          <div className={styles.coverTopBar}>
-            <div className={styles.coverBrand}>
+        {/* =====================================================
+            PAGE 1 — FRONT PAGE
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
+
+          <Watermark src="/images/newsletter/august-2026/youth-camp-group.jpg" />
+
+          <div className={styles.pageContent}>
+            <div className={styles.introBox}>
+              Impact Generation Global is a Christ-centered ministry
+              committed to discipleship, education, counselling,
+              self-empowerment, healthy living and youth development.
+              Through practical programmes and community outreach, we are
+              investing in the next generation and helping young people
+              discover purpose, character and faith in Jesus Christ.
+            </div>
+
+            <SmallTitle>VISION</SmallTitle>
+
+            <p className={styles.centerStatement}>
+              “To see a transformed generation of young people empowered
+              with Christ-centered values, practical skills and sustainable
+              opportunities to lead their communities with purpose and
+              dignity.”
+            </p>
+
+            <SmallTitle>MISSION</SmallTitle>
+
+            <p className={styles.centerText}>
+              Impact Generation Global walks alongside young people through:
+            </p>
+
+            <p className={styles.missionList}>
+              Discipleship • Education & Counselling • Youth Development •
+              Self-Empowerment • Healthy Living
+            </p>
+
+            <p className={styles.centerSmall}>
+              Our goal is to raise devoted disciples of Jesus Christ and
+              equip young people to become positive influences in their
+              generation.
+            </p>
+
+            <div className={styles.qrCenter}>
               <Image
-                src="/images/newsletter/july-2026/logo.jpg"
-                alt="Impact Generation Global logo"
-                width={300}
-                height={140}
-                className={styles.coverBrandLogo}
-                priority
+                src="/images/newsletter/july-2026/donate-qr.png"
+                alt="Donation QR code"
+                width={112}
+                height={112}
               />
-              <div>
-                <strong>Impact Generation Global</strong>
-                <span>Zambia and beyond</span>
-              </div>
             </div>
 
-            <p className={styles.coverIssue}>July 2026 Ministry Newsletter</p>
-          </div>
+            <div className={styles.blueDivider} />
 
-          <div className={styles.coverPhotoFrame}>
-            <Image
-              src="/images/newsletter/july-2026/school-ministry.jpg"
-              alt="Impact Generation Global school ministry"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 900px"
-              className={styles.coverPhoto}
-            />
-            <div className={styles.coverPhotoShade} />
-            <div className={styles.coverPhotoLabel}>
-              <span>Faith in action</span>
-              <strong>Reaching young people where they are</strong>
-            </div>
-          </div>
+            <div className={styles.greeting}>
+              <h3>Dear Friends,</h3>
 
-          <div className={styles.coverTitlePanel}>
-            <p className={styles.coverKicker}>
-              Discipleship • Dignity • Healthy Choices
-            </p>
-            <h1>Transforming the Next Generation</h1>
-            <p className={styles.coverIntro}>
-              Lasting hope in Jesus Christ through mentorship, practical
-              support, leadership development and community outreach.
-            </p>
-
-            <div className={styles.coverHighlights}>
-              <span>Youth Ministry</span>
-              <span>School Outreach</span>
-              <span>Community Impact</span>
-            </div>
-          </div>
-        </section>
-
-        {/* PAGE 2 */}
-        <section className={`${styles.page} ${styles.lightPage}`}>
-          <div className={styles.heroStrip}>
-            <Image
-              src="/images/newsletter/july-2026/cycle-for-change.jpg"
-              alt="Cycle for Change"
-              fill
-              sizes="(max-width: 768px) 100vw, 900px"
-              className={styles.coverImage}
-            />
-            <div className={styles.heroStripOverlay} />
-            <div className={styles.heroStripText}>
-              <h2>Welcoming Joseph Hoag</h2>
               <p>
-                A new board member with a passion for discipleship and
-                transformation across Africa.
+                August was one of the most active and memorable months in the
+                life of Impact Generation Global.
+              </p>
+
+              <p>
+                From Youth Camp 2026 and the visit of David Luby and Joe
+                Hoag, to international fellowship, Cycle for Change,
+                community outreach and the Come Go With Us Crusade, we
+                witnessed God working through many different expressions
+                of ministry.
               </p>
             </div>
           </div>
 
-          <div className={styles.pageBody}>
-            <div className={styles.joeGrid}>
-              <Image
-                src="/images/newsletter/july-2026/joe.jpg"
-                alt="Joseph Hoag"
-                width={900}
-                height={900}
-                className={styles.joePortrait}
-              />
-
-              <div>
-                <h3>August Zambia Mission</h3>
-                <p>
-                  Joseph is an exceptional leader who is passionate about seeing
-                  young people in Zambia and across Africa discipled and
-                  transformed. This August, he will accompany David Luby on an
-                  extended ministry trip to Zambia.
-                </p>
-
-                <div className={styles.stack}>
-                  <InfoCard
-                    title="Strengthen leadership"
-                    text="Meet local ministry leaders and encourage the teams serving on the ground."
-                  />
-                  <InfoCard
-                    title="Invest in youth"
-                    text="Spend time with young people whose lives are being touched through our programmes."
-                  />
-                  <InfoCard
-                    title="Build partnerships"
-                    text="Connect with churches, schools and community organisations."
-                  />
-                  <InfoCard
-                    title="Plan for the future"
-                    text="Develop initiatives that create sustainable, long-term impact."
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <Footer page="2" />
+          <BottomLogo />
+          <PageFooter page="1" />
         </section>
 
-        {/* PAGE 3 */}
-        <section className={`${styles.page} ${styles.lightPage}`}>
-          <header className={styles.greenHeader}>
-            <h2>A Season of Sorrow and Hope</h2>
-          </header>
+        {/* =====================================================
+            PAGE 2 — YOUTH CAMP
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
 
-          <div className={styles.pageBody}>
-            <div className={styles.twoColumns}>
-              <div>
-                <Image
-                  src="/images/newsletter/july-2026/andy.jpg"
-                  alt="Andrew “Andy” Rovengo"
-                  width={700}
-                  height={900}
-                  className={styles.portrait}
-                />
-              </div>
+          <Watermark src="/images/newsletter/august-2026/camp-wide-teaching-session.jpg" />
 
-              <div>
-                <p className={styles.eyebrow}>In Loving Memory</p>
-                <h3>Greetings in the Name of Our Lord Jesus Christ</h3>
-                <p>
-                  Indeed, God works in ways we do not always understand. Late in
-                  May, we lost one of our beloved board members, Andrew “Andy”
-                  Rovengo. Andy was not only a board member; he was a faithful
-                  friend and ministry partner. He supported the organisation
-                  financially and helped strengthen our paperwork, governance
-                  and organisational structure.
-                </p>
-                <p>
-                  We thank God for Andy’s life, wisdom and generosity. His
-                  contribution will remain part of the foundation of Impact
-                  Generation Global for years to come.
-                </p>
+          <div className={styles.pageContent}>
+            <SectionTitle>YOUTH CAMP 2026</SectionTitle>
 
-                <div className={styles.goldQuote}>
-                  <strong>“Well done, good and faithful servant.”</strong>
-                  <span>Matthew 25:21</span>
-                </div>
-              </div>
-            </div>
+            <h3 className={styles.articleTitle}>
+              Six Days of Faith, Friendship & Purpose
+            </h3>
 
-            <div className={styles.whiteCard}>
-              <h4>Even in grief, God continues to provide.</h4>
-              <p>
-                As we mourn Andy’s passing, we also recognise God’s comfort and
-                faithfulness. He has brought a young and energetic leader, Joseph
-                Hoag, to serve with us. This newsletter shares both the loss
-                we have experienced and the hope-filled work that continues
-                among young people in Zambia.
-              </p>
-            </div>
-          </div>
-          <Footer page="3" />
-        </section>
-
-        {/* PAGE 4 */}
-        <section className={`${styles.page} ${styles.whitePage}`}>
-          <div className={styles.pageBody}>
-            <p className={styles.eyebrowGold}>What We Do</p>
-            <h2 className={styles.darkTitle}>
-              Discipleship at the centre of every programme
-            </h2>
-            <p className={styles.lead}>
-              Impact Generation Global focuses on transforming young lives
-              through discipleship, practical education and healthy activities.
-              The Word of God remains our primary foundation in every outreach.
-            </p>
-
-            <div className={styles.photoGrid}>
-              <FeaturePhoto
-                src="/images/newsletter/july-2026/cycle-for-change.jpg"
-                title="Cycle for Change"
-                text="Bicycles gather young people, encourage healthy living and create opportunities to provide drug-abuse prevention education while sharing the Gospel."
-              />
-              <FeaturePhoto
-                src="/images/newsletter/july-2026/school-ministry.jpg"
-                title="School Ministry"
-                text="With access granted through education authorities and school leaders, our teams reach young people in schools with drug-abuse prevention education, mentoring and discipleship."
-              />
-            </div>
-
-            <div className={styles.threeCards}>
-              {programs.map((program) => (
-                <div className={styles.programCard} key={program.title}>
-                  <div className={styles.goldDot} />
-                  <h4>{program.title}</h4>
-                  <p>{program.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <Footer page="4" />
-        </section>
-
-        {/* PAGE 5 */}
-        <section className={`${styles.page} ${styles.lightPage}`}>
-          <div className={styles.padHero}>
-            <Image
-              src="/images/newsletter/july-2026/pad-a-girl.jpg"
-              alt="Pad A Girl outreach"
-              fill
-              sizes="(max-width: 768px) 100vw, 900px"
-              className={styles.coverImage}
-            />
-            <div className={styles.heroStripOverlay} />
-            <div className={styles.heroStripText}>
-              <h2>Dignity for More Than 60 Girls</h2>
-              <p>A successful Pad A Girl outreach in early July.</p>
-            </div>
-          </div>
-
-          <div className={styles.pageBody}>
-            <h3>Partnership makes greater impact possible.</h3>
             <p>
-              In early July, Babuyu Foundation organised a successful Pad A Girl
-              programme in partnership with Liseli Foundation, Lilato Foundation
-              and Impact Generation Global. Babuyu Foundation donated sanitary
-              pads to more than 60 girls.
-            </p>
-            <p>
-              The outreach addressed a practical need while also creating space
-              to encourage the girls, affirm their dignity and remind them that
-              they are valued by God. We are grateful for every organisation and
-              individual who made this day possible.
+              From 18 to 23 August, more than 50 Gen Z young people gathered
+              for Youth Camp 2026.
             </p>
 
-            <div className={styles.greenQuote}>
-              <strong>Pads restore dignity. Discipleship restores hope.</strong>
+            <p>
+              The programme included sessions during the day and at night,
+              creating an environment for teaching, worship, mentorship,
+              prayer, fellowship and practical life development.
+            </p>
+
+            <div className={styles.stats}>
+              <div>
+                <strong>50+</strong>
+                <span>Young People</span>
+              </div>
+
+              <div>
+                <strong>6 Days</strong>
+                <span>18–23 August</span>
+              </div>
+
+              <div>
+                <strong>Day & Night</strong>
+                <span>Sessions</span>
+              </div>
+            </div>
+
+            <p>
+              Young people learned together, prayed together and developed
+              meaningful friendships. The camp created an atmosphere where
+              they could freely participate, ask questions and grow
+              spiritually and socially.
+            </p>
+
+            <p>
+              One of the memorable highlights was the food. Meals were
+              prepared in abundance and there was enough for everyone.
+            </p>
+
+            <div className={styles.photoGridTwo}>
+              <Photo
+                src="/images/newsletter/august-2026/camp-wide-teaching-session.jpg"
+                alt="Youth Camp teaching session"
+              />
+
+              <Photo
+                src="/images/newsletter/august-2026/camp-food-prepared.jpg"
+                alt="Food prepared for Youth Camp participants"
+              />
+            </div>
+
+            <Highlight>
+              <strong>CAMP BECAME A FAMILY</strong>
               <span>
-                Together, practical support and the Gospel can keep girls in
-                school and moving toward their future.
+                Young people worshipped, learned, ate, laughed and grew
+                together throughout the six-day programme.
               </span>
-            </div>
+            </Highlight>
           </div>
-          <Footer page="5" />
+
+          <BottomLogo />
+          <PageFooter page="2" />
         </section>
 
-        {/* PAGE 6 */}
-        <section className={`${styles.page} ${styles.darkPage}`}>
-          <div className={styles.pageBody}>
-            <p className={styles.eyebrowGold}>
-              Katombora Juvenile Correctional Facility
-            </p>
-            <h2 className={styles.whiteTitle}>Hope Behind Prison Walls</h2>
+        {/* =====================================================
+            PAGE 3 — VISION TOUR
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
 
-            <Image
-              src="/images/newsletter/july-2026/prison-ministry.jpg"
-              alt="Supplies donated during prison ministry"
-              width={1400}
-              height={700}
-              className={styles.widePhoto}
-            />
+          <Watermark src="/images/newsletter/august-2026/youth-camp-group.jpg" />
 
-            <div className={styles.darkCard}>
-              <h3>Transformation is possible.</h3>
-              <p>
-                For the past several years, Impact Generation Global has visited
-                juveniles at Katombora, sharing the love of Christ and donating
-                groceries and other necessities. Although these young people
-                have made mistakes, we believe their past does not have to
-                define their future.
-              </p>
-              <p>
-                Through discipleship, encouragement and practical care, we
-                remind them that they can change, return to society and become
-                responsible people who contribute positively to their families
-                and communities.
-              </p>
-            </div>
+          <div className={styles.pageContent}>
+            <SectionTitle>VISION TOUR</SectionTitle>
 
-            <div className={styles.goldQuote}>
-              <strong>“If anyone is in Christ, he is a new creation.”</strong>
-              <span>2 Corinthians 5:17</span>
-              <em>No young person is beyond the reach of God’s grace.</em>
-            </div>
-          </div>
-          <Footer page="6" dark />
-        </section>
+            <h3 className={styles.articleTitle}>
+              Dave & Joe Visit Zambia
+            </h3>
 
-        {/* PAGE 7 */}
-        <section className={`${styles.page} ${styles.lightPage}`}>
-          <div className={styles.landHero}>
-            <Image
-              src="/images/newsletter/july-2026/land.jpg"
-              alt="Land purchased for future ministry development"
-              fill
-              sizes="(max-width: 768px) 100vw, 900px"
-              className={styles.coverImage}
-            />
-            <div className={styles.heroStripOverlay} />
-            <div className={styles.heroStripText}>
-              <p className={styles.eyebrowGold}>Building for the Future</p>
-              <h2>A permanent home for ministry</h2>
-            </div>
-          </div>
-
-          <div className={styles.pageBody}>
-            <p className={styles.lead}>
-              With the support of our partners, Impact Generation Global was
-              able to purchase a piece of land this year. We plan to develop a
-              centre for ministry activities and a team house.
+            <p>
+              August also welcomed David Luby, our USA Director, together
+              with board member Joe Hoag, who travelled to Zambia on a
+              vision and ministry tour.
             </p>
 
-            <div className={styles.stack}>
-              <InfoCard
-                title="Youth centre"
-                text="A welcoming place for discipleship, counselling, leadership development and skills training."
+            <p>
+              Their visit provided an opportunity to connect directly with
+              the Zambia team and young people, strengthen relationships,
+              listen to stories from the field and discuss the future
+              direction of Impact Generation Global.
+            </p>
+
+            <p>
+              Soon after arriving, the team visited the newly acquired land
+              and dedicated it to the Lord. A prayer walk was conducted
+              across the property, committing the future ministry centre
+              and the generations that will be served there into God&apos;s
+              hands.
+            </p>
+
+            <p>
+              Dave and Joe also spent meaningful time among the young people.
+              Their presence reflected the relational heart of the ministry:
+              leadership that does not simply observe from a distance, but
+              walks alongside the people it serves.
+            </p>
+
+            <div className={styles.photoGridTwo}>
+              <Photo
+                src="/images/newsletter/august-2026/youth-camp-group.jpg"
+                alt="David and Impact Generation young people"
               />
-              <InfoCard
-                title="Programme base"
-                text="A permanent home for school ministry, Cycle for Change, Boys to Men and Pad A Girl activities."
-              />
-              <InfoCard
-                title="Team house"
-                text="Accommodation for visiting ministry teams, partners and leaders serving alongside our local staff."
+
+              <Photo
+                src="/images/newsletter/august-2026/vision-team-visit.jpg"
+                alt="Impact Generation youth gathering"
               />
             </div>
 
-            <div className={styles.navyCallout}>
-              <p className={styles.eyebrowGold}>
-                A Long-Term Investment in the Next Generation
-              </p>
-              <h3>This vision requires prayer, partnership and support.</h3>
-              <p>
-                Every contribution helps us move closer to a sustainable
-                ministry centre where young people can be discipled, protected,
-                trained and released into their God-given purpose.
-              </p>
-            </div>
+            <Highlight>
+              <strong>BUILDING RELATIONSHIPS, BUILDING THE FUTURE</strong>
+              <span>
+                The vision tour strengthened the connection between our
+                international leadership, Zambia team and young people.
+              </span>
+            </Highlight>
           </div>
-          <Footer page="7" />
+
+          <BottomLogo />
+          <PageFooter page="3" />
         </section>
 
-        {/* PAGE 8 */}
-        <section className={`${styles.page} ${styles.finalPage}`}>
-          <div className={styles.pageBody}>
-            <p className={styles.eyebrowGold}>Partner With Us</p>
-            <h2 className={styles.whiteTitle}>
-              Help us reach the next generation.
-            </h2>
-            <p className={styles.finalLead}>
-              Your prayers and financial support help provide discipleship,
-              school outreach, youth camps, dignity programmes, prison ministry,
-              leadership development and the August Zambia mission.
+        {/* =====================================================
+            PAGE 4 — INTERNATIONAL FELLOWSHIP
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
+
+          <Watermark src="/images/newsletter/august-2026/camp-breakfast-leaders.jpg" />
+
+          <div className={styles.pageContent}>
+            <SectionTitle>INTERNATIONAL FELLOWSHIP</SectionTitle>
+
+            <h3 className={styles.articleTitle}>
+              Michel Nowelland & Miary Rakotondranaivo
+            </h3>
+
+            <p>
+              Michel Nowelland and Miary Rakotondranaivo from Madagascar
+              added a special flavour to Youth Camp 2026.
             </p>
 
-            <div className={styles.donationGrid}>
-              <div className={styles.qrCard}>
-                <Image
-                  src="/images/newsletter/july-2026/donate-qr.png"
-                  alt="Donation QR code"
-                  width={420}
-                  height={420}
-                  className={styles.qr}
-                />
-                <strong>Scan to Donate</strong>
-              </div>
+            <p>
+              Their down-to-earth attitude, humility and willingness to
+              interact personally with the young people made it easy for
+              them to connect naturally with camp participants.
+            </p>
 
-              <div>
-                <h3>Support the work</h3>
-                <p>
-                  Visit our website to give toward the ministry, the land
-                  development project, or David Luby and Joseph Hoag’s August
-                  mission to Zambia.
-                </p>
+            <p>
+              Their involvement did not end with simply attending the camp.
+              Michel and Miary are working with our young people, teaching
+              drama and other creative activities that can be used during
+              field outreach.
+            </p>
 
-                <a
-                  href="https://impactgenerationglobal.org/donate"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.donateLink}
-                >
-                  impactgenerationglobal.org/donate
-                </a>
+            <p>
+              Drama gives the young people another way of communicating
+              messages of faith, hope, purpose and transformation to their
+              peers and communities.
+            </p>
 
-                <h3 className={styles.thankYou}>
-                  Thank you for standing with us.
-                </h3>
-                <p>
-                  Together, we can raise a generation that knows Christ, rejects
-                  drug abuse, walks in purpose and transforms communities.
-                </p>
-              </div>
+            <div className={styles.photoGridTwo}>
+              <Photo
+                src="/images/newsletter/august-2026/camp-breakfast-leaders.jpg"
+                alt="International fellowship at Youth Camp"
+              />
+
+              <Photo
+                src="/images/newsletter/august-2026/camp-certificates-couple.jpg"
+                alt="International guests with Youth Camp certificates"
+              />
             </div>
 
-            <div className={styles.signature}>
-              <p>
-                <em>In His service,</em>
-              </p>
-              <strong>David Luby</strong>
-              <span>Executive Director, Impact Generation Global</span>
-            </div>
+            <Highlight>
+              <strong>CREATIVITY FOR THE FIELD</strong>
+              <span>
+                Drama and creative activities are becoming practical tools
+                for discipleship, evangelism and youth engagement.
+              </span>
+            </Highlight>
           </div>
-          <Footer page="8" dark />
+
+          <BottomLogo />
+          <PageFooter page="4" />
+        </section>
+
+        {/* =====================================================
+            PAGE 5 — CAMP LIFE & LEADERSHIP
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
+
+          <Watermark src="/images/newsletter/august-2026/camp-leadership-meeting.jpg" />
+
+          <div className={styles.pageContent}>
+            <SectionTitle>CAMP LIFE & LEADERSHIP</SectionTitle>
+
+            <h3 className={styles.subTitle}>
+              Leadership Around the Table
+            </h3>
+
+            <p>
+              This year&apos;s camp was strengthened by leaders who took
+              time to sit with the young people, listen to them and help
+              them think seriously about life, faith and purpose.
+            </p>
+
+            <p>
+              Brother Joseph travelled from Choma to help lead the camp,
+              while David and Fred also spent dedicated time speaking to
+              young people about vision, focus, discipline and commitment.
+            </p>
+
+            <div className={styles.photoGridTwo}>
+              <Photo
+                src="/images/newsletter/august-2026/camp-leadership-meeting.jpg"
+                alt="Camp leadership discussion with young people"
+              />
+
+              <Photo
+                src="/images/newsletter/august-2026/youth-camp-mealtime.jpg"
+                alt="Young people enjoying camp fellowship"
+              />
+            </div>
+
+            <h3 className={styles.subTitle}>
+              Food, Fellowship & Friendship
+            </h3>
+
+            <p>
+              The generous food provision was another memorable part of
+              camp life. There was enough for everyone, and meals became
+              opportunities for conversation, laughter and stronger
+              friendships.
+            </p>
+
+            <h3 className={styles.subTitle}>
+              A Visit from Botswana
+            </h3>
+
+            <p>
+              During the camp, the young people were also blessed by a visit
+              from an apostle from Botswana, adding another valuable moment
+              of spiritual encouragement and international fellowship.
+            </p>
+
+            <Highlight>
+              <strong>LEADERSHIP THAT WALKS WITH YOUNG PEOPLE</strong>
+              <span>
+                Camp leadership was not only about speaking from the front,
+                but also sitting, eating, listening and sharing life
+                together.
+              </span>
+            </Highlight>
+          </div>
+
+          <BottomLogo />
+          <PageFooter page="5" />
+        </section>
+
+        {/* =====================================================
+            PAGE 6 — CYCLE FOR CHANGE
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
+
+          <Watermark src="/images/newsletter/august-2026/cycle-for-change-street.jpg" />
+
+          <div className={styles.pageContent}>
+            <SectionTitle>CYCLE FOR CHANGE</SectionTitle>
+
+            <h3 className={styles.articleTitle}>
+              When Bicycles Became Tools for Evangelism
+            </h3>
+
+            <p>
+              Impact Generation Global participated in the 2026 Come Go
+              With Us Crusade and played an important role in community
+              mobilisation.
+            </p>
+
+            <p>
+              Cycle for Change was intentionally dedicated to advertising
+              the crusade. Young cyclists were given flyers and rode
+              through surrounding communities inviting people to attend.
+            </p>
+
+            <p>
+              What normally serves as a programme for healthy living,
+              discipline and youth engagement became a practical
+              evangelistic tool.
+            </p>
+
+            <p>
+              Every bicycle carried more than a rider. It carried an
+              invitation.
+            </p>
+
+            <div className={styles.photoGridTwo}>
+              <Photo
+                src="/images/newsletter/august-2026/cycle-for-change-street.jpg"
+                alt="Cycle for Change community outreach"
+              />
+
+              <Photo
+                src="/images/newsletter/august-2026/cycle-for-change-team.jpg"
+                alt="Cycle for Change ministry team"
+              />
+            </div>
+
+            <Highlight>
+              <strong>EVERY BICYCLE BECAME A MESSENGER</strong>
+              <span>
+                Young people used what was already in their hands to carry
+                the crusade invitation into the community.
+              </span>
+            </Highlight>
+          </div>
+
+          <BottomLogo />
+          <PageFooter page="6" />
+        </section>
+
+        {/* =====================================================
+            PAGE 7 — SCHOOL & COMMUNITY MINISTRY
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
+
+          <Watermark src="/images/newsletter/august-2026/evangelism-for-change.jpg" />
+
+          <div className={styles.pageContent}>
+            <SectionTitle>SCHOOL & COMMUNITY MINISTRY</SectionTitle>
+
+            <h3 className={styles.articleTitle}>
+              Reaching Young People Where They Are
+            </h3>
+
+            <p>
+              The work of Impact Generation Global continues beyond camps
+              and crusades into schools and local communities.
+            </p>
+
+            <p>
+              Through school ministry, young people receive mentorship,
+              discipleship, encouragement and practical guidance on issues
+              such as discipline, drug abuse prevention, healthy living,
+              purpose and making positive life choices.
+            </p>
+
+            <p>
+              Schools provide an important opportunity to reach young
+              people within an environment where they spend much of their
+              everyday lives.
+            </p>
+
+            <p>
+              Community outreach further allows our teams to connect with
+              young people and families outside organised ministry
+              programmes.
+            </p>
+
+            <div className={styles.largePhoto}>
+              <Image
+                src="/images/newsletter/july-2026/school-ministry.jpg"
+                alt="Impact Generation school ministry"
+                fill
+                sizes="(max-width: 768px) 100vw, 850px"
+                className={styles.photo}
+              />
+            </div>
+
+            <Highlight>
+              <strong>ONE MISSION — MANY EXPRESSIONS</strong>
+              <span>
+                Through schools, camps, bicycles, drama and community
+                outreach, our purpose remains the same: transforming the
+                next generation.
+              </span>
+            </Highlight>
+          </div>
+
+          <BottomLogo />
+          <PageFooter page="7" />
+        </section>
+
+        {/* =====================================================
+            PAGE 8 — DAVE'S BAPTISM
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
+
+          <Watermark src="/images/newsletter/august-2026/crusade-certificates-group.jpg" />
+
+          <div className={styles.pageContent}>
+            <SectionTitle>BAPTISM & NEW BEGINNINGS</SectionTitle>
+
+            <h3 className={styles.articleTitle}>
+              Dave Gets Baptised at the Come Go With Us Crusade
+            </h3>
+
+            <p>
+              One of the most memorable moments of the 2026 Come Go With Us
+              Crusade was the baptism of our USA Director, David Luby.
+            </p>
+
+            <p>
+              Dave&apos;s decision to be baptised was more than a personal
+              moment of faith. For many of the young people who had come to
+              know him during his time in Zambia, it became a visible
+              expression of humility, commitment and his heart for the
+              ministry.
+            </p>
+
+            <p>
+              Having travelled from the United States to serve alongside
+              the Impact Generation team, Dave did not position himself
+              above the people he came to encourage. He chose to participate
+              in the same spiritual journey taking place among those being
+              reached through the crusade.
+            </p>
+
+            <div className={styles.photoGridTwo}>
+              <Photo
+                src="/images/newsletter/august-2026/dave-baptism-certificate-cropped.jpg"
+                alt="David Luby holding his Certificate of Baptism"
+              />
+
+              <Photo
+                src="/images/newsletter/august-2026/crusade-certificates-group.jpg"
+                alt="Crusade participants holding baptism certificates"
+              />
+            </div>
+
+            <p>
+              Dave was among many people who were baptised during the
+              crusade and later received a Certificate of Baptism.
+            </p>
+
+            <Highlight>
+              <strong>FAITH THAT LEADS BY EXAMPLE</strong>
+              <span>
+                Dave&apos;s baptism reminded us that leadership is not only
+                about teaching others — it is also about walking alongside
+                them.
+              </span>
+            </Highlight>
+          </div>
+
+          <BottomLogo />
+          <PageFooter page="8" />
+        </section>
+
+        {/* =====================================================
+            PAGE 9 — FULL-CIRCLE TESTIMONY
+        ====================================================== */}
+        <section className={styles.page}>
+          <NewsletterHeader />
+
+          <Watermark src="/images/newsletter/august-2026/samaritan-purse-zambia-children.jpg" />
+
+          <div className={styles.pageContent}>
+            <SectionTitle>A FULL-CIRCLE TESTIMONY</SectionTitle>
+
+            <h3 className={styles.articleTitle}>
+              From the Packing Table to the Hands of a Child
+            </h3>
+
+            <p>
+              One of the most touching and unexpected moments of the August
+              visit came through our board member, Joe Hoag.
+            </p>
+
+            <p>
+              Back in the United States, Joe has personally been involved
+              in packing Samaritan&apos;s Purse gift boxes for children.
+              Like many volunteers, he has helped prepare these gifts in
+              faith, trusting that they would eventually reach children
+              who need encouragement and joy.
+            </p>
+
+            <p>
+              During his visit to Zambia, Joe experienced something he had
+              never seen before — the receiving end of those very gifts.
+            </p>
+
+            <div className={styles.photoGridTwo}>
+              <Photo
+                src="/images/newsletter/august-2026/samaritan-purse-usa-team.jpg"
+                alt="Joe Hoag and volunteers with Samaritan's Purse gift boxes in the USA"
+              />
+
+              <Photo
+                src="/images/newsletter/august-2026/samaritan-purse-zambia-children.jpg"
+                alt="Joe witnessing children receiving Samaritan's Purse gifts in Zambia"
+              />
+            </div>
+
+            <p>
+              Joe stood among children as gift boxes were distributed and
+              watched their excitement as they received items that had
+              travelled thousands of kilometres from donors and volunteers
+              overseas.
+            </p>
+
+            <p>
+              The moment became a powerful confirmation that generosity
+              entrusted to the programme reaches real children on the
+              ground. Joe was able to witness both ends of the journey —
+              people giving and packing in the United States, and children
+              receiving with joy in Zambia.
+            </p>
+
+            <p>
+              He returns home carrying more than photographs. He carries a
+              testimony of stewardship, partnership and the impact that
+              generosity can have across borders.
+            </p>
+
+            <Highlight>
+              <strong>TRANSPARENCY IN ACTION</strong>
+              <span>
+                A gift packed with love thousands of kilometres away became
+                a moment of joy in the hands of a child in Zambia.
+              </span>
+            </Highlight>
+          </div>
+
+          <BottomLogo />
+          <PageFooter page="9" />
         </section>
       </article>
     </main>
   );
 }
 
-function InfoCard({ title, text }: { title: string; text: string }) {
+/* =========================================================
+   COMPONENTS
+========================================================= */
+
+function NewsletterHeader() {
   return (
-    <div className={styles.infoCard}>
-      <h4>{title}</h4>
-      <p>{text}</p>
-    </div>
+    <header className={styles.header}>
+      <div className={styles.brand}>
+        <span>IMPACT</span>
+        <span>GENERATION</span>
+        <strong>GLOBAL</strong>
+      </div>
+
+      <div className={styles.newsTitle}>
+        <strong>NEWSLETTER</strong>
+        <span>{ISSUE}</span>
+      </div>
+    </header>
   );
 }
 
-function FeaturePhoto({
-  src,
-  title,
-  text,
-}: {
-  src: string;
-  title: string;
-  text: string;
-}) {
+function Watermark({ src }: { src: string }) {
   return (
-    <div>
+    <div className={styles.watermark}>
       <Image
         src={src}
-        alt={title}
-        width={1000}
-        height={700}
-        className={styles.featurePhoto}
+        alt=""
+        fill
+        sizes="900px"
+        className={styles.watermarkImage}
       />
-      <h3 className={styles.greenHeading}>{title}</h3>
-      <p>{text}</p>
     </div>
   );
 }
 
-function Footer({ page, dark = false }: { page: string; dark?: boolean }) {
+function SectionTitle({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <h2 className={styles.sectionTitle}>{children}</h2>;
+}
+
+function SmallTitle({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <h2 className={styles.smallTitle}>{children}</h2>;
+}
+
+function Photo({
+  src,
+  alt,
+}: {
+  src: string;
+  alt: string;
+}) {
   return (
-    <footer className={`${styles.footer} ${dark ? styles.footerDark : ""}`}>
-      <span>Impact Generation Global | July 2026 Newsletter</span>
-      <span>{page}</span>
+    <div className={styles.photoCard}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 768px) 100vw, 420px"
+        className={styles.photo}
+      />
+    </div>
+  );
+}
+
+function Highlight({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <div className={styles.highlightBox}>{children}</div>;
+}
+
+function BottomLogo() {
+  return (
+    <div className={styles.bottomLogo}>
+      <Image
+        src="/images/newsletter/july-2026/logo.jpg"
+        alt="Impact Generation Global logo"
+        width={120}
+        height={65}
+      />
+    </div>
+  );
+}
+
+function PageFooter({ page }: { page: string }) {
+  return (
+    <footer className={styles.footer}>
+      <span>{ORG}</span>
+      <span>Page {page}</span>
     </footer>
   );
 }
