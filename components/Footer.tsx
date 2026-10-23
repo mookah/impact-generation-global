@@ -75,7 +75,7 @@ export default function Footer() {
             <Link href="/gallery" className="block transition hover:text-amber-400">
               Gallery
             </Link>
-            <Link href="/newsletter" className="block transition hover:text-amber-400">
+            <Link href="/updates" className="block transition hover:text-amber-400">\n              Latest Updates\n            </Link>\n            <Link href="/newsletter" className="block transition hover:text-amber-400">
               Newsletter
             </Link>
             <Link href="/contact" className="block transition hover:text-amber-400">
