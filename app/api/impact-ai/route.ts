@@ -5,23 +5,42 @@ import type { Article, EventRecord, Issue } from '@/lib/content-types';
 import { getFacebookUpdates } from '@/lib/facebook';
 import { friendlyReply,meaningfulActivities,ministryQuestion } from '@/lib/buddy';
 
+export const runtime = 'nodejs';
+// Allow for database rate limits, public sources and the bounded provider request.
+export const maxDuration = 180;
+
 export async function POST(request: Request) {
+  const requestId = crypto.randomUUID();
+  let stage = 'origin';
   try {
-    sameOrigin(request); await rate(request, 'impact-ai', 12);
+    sameOrigin(request);
+    stage = 'validation';
     const body = await json(request);
-    if (!Array.isArray(body.messages) || !body.messages.length || body.messages.length > 12) throw new AppError('Start a new conversation after six questions.');
+    if (!body || !Array.isArray(body.messages) || !body.messages.length || body.messages.length > 12) throw new AppError('Start a new conversation after six questions.');
     const messages = body.messages.map((m: { role: string; text: string }) => {
-      if (!['visitor','guide'].includes(m.role) || typeof m.text !== 'string' || m.text.length > 1200) throw new AppError('Keep questions under 1,200 characters.');
+      if (!m || !['visitor','guide'].includes(m.role) || typeof m.text !== 'string' || m.text.length > 1200) throw new AppError('Keep questions under 1,200 characters.');
       return { role: m.role, text: m.text };
     });
     const latest=[...messages].reverse().find((m:{role:string})=>m.role==='visitor')?.text||'';
     const friendly=friendlyReply(latest);if(friendly)return Response.json({text:friendly,sources:[],answerType:'greeting'},{headers:{'Cache-Control':'no-store'}});
+    stage = 'configuration';
+    const missing = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'RATE_LIMIT_SALT', 'OPENAI_API_KEY', 'OPENAI_MODEL'].filter(name => !process.env[name]?.trim());
+    if (missing.length) {
+      console.error('[impact-ai] Missing server configuration', { requestId, missing });
+      throw new AppError('The assistant is temporarily unavailable.', 503);
+    }
+    stage = 'visitor_rate_limit';
+    await rate(request, 'impact-ai', 12);
     const isMinistry=ministryQuestion(latest)||(/^(?:and |what about|where can|when is|tell me more)/i.test(latest)&&messages.some((m:{role:string;text:string})=>m.role==='visitor'&&ministryQuestion(m.text)));
-    const articles = isMinistry&&configured() ? await db<Article[]>('igg_articles?status=eq.published&order=published_at.desc&limit=12') : [];
-    const issues = isMinistry&&configured() ? await db<Issue[]>('igg_issues?status=eq.published&order=month.desc&limit=4') : [];
-    const events = isMinistry&&configured() ? await db<EventRecord[]>('igg_events?approved=eq.true&order=date.desc&limit=30') : [];
-    const feed=isMinistry?await getFacebookUpdates(30):{posts:[]};
+    stage = 'public_sources';
+    const [articles, issues, events, feed] = await Promise.all([
+      isMinistry&&configured() ? db<Article[]>('igg_articles?status=eq.published&order=published_at.desc&limit=12') : [],
+      isMinistry&&configured() ? db<Issue[]>('igg_issues?status=eq.published&order=month.desc&limit=4') : [],
+      isMinistry&&configured() ? db<EventRecord[]>('igg_events?approved=eq.true&order=date.desc&limit=30') : [],
+      isMinistry ? getFacebookUpdates(30) : {posts:[]},
+    ]);
     const activities=meaningfulActivities(feed.posts);
+    stage = 'generation';
     const sources = isMinistry ? [
       { title: 'Mission and partnerships', url: '/about', text: mission },
       { title: 'Donations', url: '/donate', text: 'Secure donation options and partnership support are listed on this page. Never collect payment details in chat.' },
@@ -39,5 +58,12 @@ export async function POST(request: Request) {
     const words = [...new Set<string>(query.split(/\W+/).filter((w: string) => w.length > 3))];
     const ranked = sources.map(s => ({ ...s, score: words.reduce((score, word) => score + (s.title.toLowerCase().includes(word) ? 3 : s.text.toLowerCase().includes(word) ? 1 : 0), 0) })).sort((a,b) => b.score-a.score);
     return Response.json({ text, answerType:isMinistry?'ministry':'general', sources: ranked.filter(s=>s.score>0).slice(0, 3).map(s => ({ title: s.title, url: s.url })) }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch (e) { return errorResponse(e); }
+  } catch (e) {
+    const status = e instanceof AppError ? e.status : 503;
+    // Never log exception messages, request bodies, headers or provider bodies.
+    console.error('[impact-ai] Request failed', { requestId, stage, status });
+    const response = errorResponse(status >= 500 ? new AppError('The assistant is temporarily unavailable.', status) : e);
+    response.headers.set('X-Request-Id', requestId);
+    return response;
+  }
 }

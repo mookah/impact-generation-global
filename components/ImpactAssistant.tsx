@@ -62,12 +62,15 @@ export default function ImpactAssistant() {
     setBusy(true);
     try {
       const conversation = [...messages.slice(1), { role: "visitor", text: message }];
-      const response = await fetch("/api/impact-ai", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: conversation.map(m => ({ role: m.role, text: m.text })) }) });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error);
+      const response = await fetch("/api/impact-ai", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: conversation.map(m => ({ role: m.role, text: m.text })) }), signal: AbortSignal.timeout(185000) });
+      // Vercel can return HTML/plain text on gateway or deployment failures.
+      const result = await response.json().catch(() => null);
+      if (!response.ok || typeof result?.text !== 'string' || !result.text.trim()) {
+        throw new Error(response.status < 500 && typeof result?.error === 'string' ? result.error : 'The assistant is temporarily unavailable. Please try again.');
+      }
       setMessages(previous => [...previous, { role: "guide", text: result.text, sources: result.sources }]);
     } catch (error) {
-      setMessages(previous => [...previous, { role: "guide", text: error instanceof Error ? error.message : "The assistant is temporarily unavailable.", href: "/contact", label: "Contact our team" }]);
+      setMessages(previous => [...previous, { role: "guide", text: error instanceof Error && error.name === 'Error' ? error.message : "The assistant could not connect or timed out. Please try again.", href: "/contact", label: "Contact our team" }]);
     } finally { requestInFlight.current=false;setBusy(false); }
   };
 

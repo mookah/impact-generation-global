@@ -62,23 +62,37 @@ export async function syncFacebook(month?: string) {
 }
 
 export async function ai(instructions: string, input: string, rewrite = false) {
+  // Validate before reserving allowance, and keep configuration outside fetch errors.
+  const apiKey = env('OPENAI_API_KEY');
+  const model = env('OPENAI_MODEL');
   // Durable global reservation caps concurrent usage across serverless instances.
   const allowed = await rpc<boolean>('igg_rate', { p_key: `ai:${new Date().toISOString().slice(0, 10)}`, p_limit: Number(process.env.AI_DAILY_REQUEST_LIMIT || 100), p_seconds: 86400 });
   if (!allowed) throw new AppError('The daily AI allowance has been reached.', 429);
   const properties = Object.fromEntries(['caption', 'article', 'summary', 'headline', 'description'].map(k => [k, { type: 'string' }]));
   let response:Response;
   try { response = await fetch('https://api.openai.com/v1/responses', {
-    method: 'POST', signal: AbortSignal.timeout(45000), headers: { Authorization: `Bearer ${env('OPENAI_API_KEY')}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: env('OPENAI_MODEL'), store: false, max_output_tokens: rewrite ? 2500 : 700, instructions, input: input.slice(0, 22000), ...(rewrite ? { text: { format: { type: 'json_schema', name: 'nonprofit_content', strict: true, schema: { type: 'object', properties, required: Object.keys(properties), additionalProperties: false } } } } : {}) }),
-  }); } catch { throw new AppError('OpenAI could not be reached or timed out. Saved reports are safe; retry the unfinished report later.', 502); }
+    method: 'POST', signal: AbortSignal.timeout(45000), headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model, store: false, max_output_tokens: rewrite ? 2500 : 700, instructions, input: input.slice(0, 22000), ...(rewrite ? { text: { format: { type: 'json_schema', name: 'nonprofit_content', strict: true, schema: { type: 'object', properties, required: Object.keys(properties), additionalProperties: false } } } } : {}) }),
+  }); } catch {
+    console.error('[impact-ai] Provider request failed', { reason: 'network_or_timeout' });
+    throw new AppError('OpenAI could not be reached or timed out. Saved reports are safe; retry the unfinished report later.', 502);
+  }
   if (!response.ok) {
+    console.error('[impact-ai] Provider rejected request', { status: response.status });
     if(response.status===401||response.status===403)throw new AppError('OpenAI rejected the configured API credentials or model access. Existing drafts were preserved.',502);
     if(response.status===429)throw new AppError('OpenAI quota or rate limit reached. Existing drafts were preserved; check API billing and retry later.',429);
     throw new AppError(`OpenAI generation failed (HTTP ${response.status}). Existing drafts were preserved.`,502);
   }
-  const result = await response.json();
+  const result = await response.json().catch(() => null);
+  if (!result || !Array.isArray(result.output)) {
+    console.error('[impact-ai] Invalid provider response', { status: response.status });
+    throw new AppError('AI returned an invalid response. Please try again.', 502);
+  }
   const text = result.output?.flatMap((o: { content?: { type: string; text?: string }[] }) => o.content || []).filter((c: { type: string }) => c.type === 'output_text').map((c: { text: string }) => c.text).join('');
-  if (result.status !== 'completed' || !text) throw new AppError('AI response was incomplete. Please review and retry.', 502);
+  if (result.status !== 'completed' || !text) {
+    console.error('[impact-ai] Incomplete provider response');
+    throw new AppError('AI response was incomplete. Please review and retry.', 502);
+  }
   await audit('ai.usage', `${rewrite ? 'rewrite' : 'chat'}; ${result.usage?.total_tokens || 0} tokens`);
   return text as string;
 }

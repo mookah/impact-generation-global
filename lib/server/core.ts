@@ -34,7 +34,11 @@ export async function db<T>(path: string, method = 'GET', body?: unknown): Promi
     headers: { ...supabaseHeaders(), 'Content-Type': 'application/json', Prefer: 'return=representation,resolution=merge-duplicates' },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
-  if (!response.ok) throw new AppError('Database operation failed. Check the migration and server configuration.', 503);
+  if (!response.ok) {
+    // Paths and response bodies may contain private records. Log only HTTP status.
+    console.error('[server-db] Request failed', { status: response.status });
+    throw new AppError('Database operation failed. Check the migration and server configuration.', 503);
+  }
   return response.status === 204 ? undefined as T : response.json();
 }
 export const rpc = <T>(name: string, body: unknown) => db<T>(`rpc/${name}`, 'POST', body);
