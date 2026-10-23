@@ -1,6 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
+import { programs, site } from "@/lib/site";
 
-const FACEBOOK_LINK = "https://web.facebook.com/impactgeneration.com2022";
+const FACEBOOK_LINK = site.facebook;
 
 function FacebookIcon() {
   return (
@@ -40,178 +42,165 @@ function YoutubeIcon() {
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 px-6 pb-10 pt-16 text-center text-white md:pt-20 md:text-left">
-      <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <h2 className="mb-5 text-3xl font-bold leading-tight md:text-4xl">
-            Impact Generation Global
-          </h2>
+    <footer className="bg-brand-950 text-white">
+      <div className="shell grid gap-10 py-14 md:grid-cols-12 md:gap-8 md:py-16">
+        {/* BRAND */}
+        <div className="md:col-span-5">
+          <Image
+            src="/logo-new.png"
+            alt="Impact Generation Global"
+            width={200}
+            height={72}
+            className="h-12 w-auto object-contain"
+          />
 
-          <p className="mx-auto mb-8 max-w-xl leading-relaxed text-slate-300 md:mx-0">
-            A Christ-centered nonprofit devoted to discipleship, youth
-            empowerment, education, counseling, and community transformation.
+          <p className="mt-5 max-w-sm text-sm leading-7 text-brand-100/80">
+            A Christ-centered nonprofit raising young people in Zambia with
+            faith, character, dignity and purpose.
           </p>
 
-          <Link
-            href="/donate"
-            className="inline-block rounded-full bg-amber-500 px-8 py-4 font-semibold text-white transition hover:-translate-y-1 hover:bg-amber-600"
-          >
-            Support The Mission
-          </Link>
-        </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/donate" className="btn btn-gold !px-6 !py-3 text-sm">
+              Donate
+            </Link>
 
-        <div>
-          <h3 className="mb-6 text-sm font-bold uppercase tracking-[0.25em] text-amber-400">
-            Quick Links
-          </h3>
-
-          <div className="space-y-4 text-slate-300">
-            <Link href="/" className="block transition hover:text-amber-400">
-              Home
-            </Link>
-            <Link href="/about" className="block transition hover:text-amber-400">
-              About
-            </Link>
-            <Link href="/gallery" className="block transition hover:text-amber-400">
-              Gallery
-            </Link>
-            <Link href="/newsletter" className="block transition hover:text-amber-400">
-              Newsletter
-            </Link>
-            <Link href="/contact" className="block transition hover:text-amber-400">
-              Contact
+            <Link
+              href="/subscribe"
+              className="btn !border !border-white/20 !bg-white/5 !px-6 !py-3 text-sm text-white hover:!bg-white/10"
+            >
+              Subscribe
             </Link>
           </div>
         </div>
 
-        <div>
-          <h3 className="mb-6 text-sm font-bold uppercase tracking-[0.25em] text-amber-400">
-            Programs
-          </h3>
+        {/* EXPLORE */}
+        <nav className="md:col-span-2" aria-label="Footer navigation">
+          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-gold-300">
+            Explore
+          </h2>
 
-          <div className="space-y-4 text-slate-300">
-            <Link href="/boys-to-men" className="block transition hover:text-amber-400">
-              Boys To Men
-            </Link>
-            <Link href="/pastors-kids" className="block transition hover:text-amber-400">
-              Pastors Kids
-            </Link>
-            <Link href="/cycle-for-change" className="block transition hover:text-amber-400">
-              Cycle For Change
-            </Link>
-            <Link href="/pad-a-girl" className="block transition hover:text-amber-400">
-              Pad A Girl
-            </Link>
-            <Link href="/school-ministry" className="block transition hover:text-amber-400">
-              School Ministry
-            </Link>
-            <Link href="/youth-camps" className="block transition hover:text-amber-400">
-              Youth Camps
-            </Link>
+          <ul className="mt-4 space-y-3 text-sm text-brand-100/80">
+            {[
+              { href: "/about", label: "About & Vision" },
+              { href: "/programs", label: "Programs" },
+              { href: "/events", label: "Events" },
+              { href: "/gallery", label: "Gallery" },
+              { href: "/blog", label: "Updates" },
+              { href: "/contact", label: "Contact" },
+            ].map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="transition hover:text-gold-300"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* PROGRAMS */}
+        <nav className="md:col-span-2" aria-label="Programs">
+          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-gold-300">
+            Programs
+          </h2>
+
+          <ul className="mt-4 space-y-3 text-sm text-brand-100/80">
+            {programs.map((program) => (
+              <li key={program.slug}>
+                <Link
+                  href={`/programs/${program.slug}`}
+                  className="transition hover:text-gold-300"
+                >
+                  {program.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* CONTACT */}
+        <div className="md:col-span-3">
+          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-gold-300">
+            Contact
+          </h2>
+
+          <ul className="mt-4 space-y-3 text-sm text-brand-100/80">
+            <li>
+              <span className="block text-xs uppercase tracking-wider text-brand-200/60">
+                Zambia
+              </span>
+              <a href="tel:+260977427127" className="hover:text-gold-300">
+                +260 977 427127
+              </a>
+            </li>
+
+            <li>
+              <span className="block text-xs uppercase tracking-wider text-brand-200/60">
+                United States
+              </span>
+              <a href="tel:+17169842636" className="hover:text-gold-300">
+                +1 (716) 984-2636
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="mailto:dluby60@gmail.com"
+                className="break-all hover:text-gold-300"
+              >
+                dluby60@gmail.com
+              </a>
+            </li>
+          </ul>
+
+          <div className="mt-5 flex gap-3">
+            <a
+              href={FACEBOOK_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition hover:bg-gold-400 hover:text-brand-950"
+            >
+              <FacebookIcon />
+            </a>
+
+            <a
+              href={site.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition hover:bg-gold-400 hover:text-brand-950"
+            >
+              <YoutubeIcon />
+            </a>
+
+            <a
+              href={site.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition hover:bg-gold-400 hover:text-brand-950"
+            >
+              <InstagramIcon />
+            </a>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto mt-16 max-w-7xl border-t border-white/10 pt-8">
-        <div className="grid items-start gap-10 md:grid-cols-2">
-          <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-[0.25em] text-amber-400">
-              Contact
-            </h3>
-
-            <div className="grid gap-8 sm:grid-cols-2">
-              <div className="rounded-2xl bg-white/5 p-5">
-                <h4 className="mb-3 font-semibold text-white">USA Office</h4>
-
-                <p className="text-slate-300">David Luby</p>
-
-                <a
-                  href="mailto:dluby60@gmail.com"
-                  className="mt-1 block break-all text-slate-300 transition hover:text-amber-400"
-                >
-                  dluby60@gmail.com
-                </a>
-
-                <a
-                  href="tel:+17169842636"
-                  className="mt-1 block text-slate-300 transition hover:text-amber-400"
-                >
-                  +1 (716) 984-2636
-                </a>
-              </div>
-
-              <div className="rounded-2xl bg-white/5 p-5">
-                <h4 className="mb-3 font-semibold text-white">Zambia Office</h4>
-
-                <p className="text-slate-300">Fred Mbewe</p>
-
-                <a
-                  href="mailto:mbewefred1@gmail.com"
-                  className="mt-1 block break-all text-slate-300 transition hover:text-amber-400"
-                >
-                  mbewefred1@gmail.com
-                </a>
-
-                <a
-                  href="tel:+260977427127"
-                  className="mt-1 block text-slate-300 transition hover:text-amber-400"
-                >
-                  +260 977 427127
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center gap-5 md:items-end">
-            <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-amber-400">
-              Follow Us
-            </h3>
-
-            <div className="flex justify-center gap-4 md:justify-end">
-              <a
-                href={FACEBOOK_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition hover:-translate-y-1 hover:bg-amber-500"
-              >
-                <FacebookIcon />
-              </a>
-
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition hover:-translate-y-1 hover:bg-amber-500"
-              >
-                <InstagramIcon />
-              </a>
-
-              <a
-                href="#"
-                aria-label="YouTube"
-                className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition hover:-translate-y-1 hover:bg-amber-500"
-              >
-                <YoutubeIcon />
-              </a>
-            </div>
-
-            <p className="max-w-sm text-center text-sm leading-6 text-slate-400 md:text-right">
-              Follow Impact Generation Global for updates, outreach moments,
-              youth programs, and ministry stories from Zambia and beyond.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-center md:flex-row md:text-left">
-          <p className="text-sm text-slate-500">
-            © 2026 Impact Generation Global. All Rights Reserved.
+      <div className="border-t border-white/10">
+        <div className="shell flex flex-col items-center justify-between gap-3 py-6 text-center text-xs text-brand-200/70 sm:flex-row sm:text-left">
+          <p>
+            © {new Date().getFullYear()} Impact Generation Global. All rights
+            reserved.
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-slate-500 md:justify-end">
-            <Link href="/privacy" className="transition hover:text-amber-400">
+          <div className="flex gap-5">
+            <Link href="/privacy" className="transition hover:text-gold-300">
               Privacy
             </Link>
-            <Link href="/terms" className="transition hover:text-amber-400">
+            <Link href="/terms" className="transition hover:text-gold-300">
               Terms
             </Link>
           </div>

@@ -2,268 +2,188 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const PAYPAL_DONATE_LINK =
   "https://www.paypal.com/donate/?hosted_button_id=34HPDHC4M7YZA";
 
 const GOFUNDME_LINK = "https://gofund.me/7f8b19b5e";
 
-const programs = [
-  { href: "/boys-to-men", label: "Boys To Men" },
-  { href: "/pad-a-girl", label: "Pad A Girl" },
-  { href: "/school-ministry", label: "School Ministry" },
-  { href: "/cycle-for-change", label: "Cycle For Change" },
-  { href: "/pastors-kids", label: "Pastors Kids" },
-  { href: "/youth-camps", label: "Youth Camps" },
+const navLinks = [
+  { href: "/about", label: "About" },
+  { href: "/programs", label: "Programs" },
+  { href: "/events", label: "Events" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/blog", label: "Updates" },
+  { href: "/newsletter", label: "Newsletter" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // The menu remembers which route it was opened on, so navigating to a new
+  // page closes it without needing a state-syncing effect.
+  const [menuPath, setMenuPath] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  const open = menuPath === pathname;
+
+  const setOpen = (value: boolean | ((current: boolean) => boolean)) => {
+    setMenuPath((current) => {
+      const isOpen = current === pathname;
+      const next = typeof value === "function" ? value(isOpen) : value;
+      return next ? pathname : null;
+    });
+  };
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Lock background scrolling while the mobile menu is open, and close it on Escape.
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuPath(null);
+    };
+
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  const isActive = (href: string) =>
+    pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
-      <div className="mx-auto max-w-7xl px-6 pt-3">
-        <div className="flex h-[78px] items-center justify-between rounded-[28px] border border-white/10 bg-slate-950/45 px-8 shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl">
-          <Link href="/" className="flex shrink-0 items-center">
-            <Image
-              src="/logo-new.png"
-              alt="Impact Generation Global"
-              width={220}
-              height={80}
-              className="h-auto w-[170px] object-contain"
-              priority
-            />
+    <header
+      className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${
+        scrolled || open
+          ? "border-b border-slate-200/80 shadow-[0_1px_12px_rgba(7,28,55,0.06)]"
+          : "border-b border-transparent"
+      }`}
+    >
+      <div className="shell flex h-16 items-center justify-between gap-3 md:h-20">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center"
+          aria-label="Impact Generation Global — home"
+        >
+          <Image
+            src="/logo-new.png"
+            alt="Impact Generation Global"
+            width={220}
+            height={80}
+            priority
+            className="h-10 w-auto object-contain sm:h-12"
+          />
+        </Link>
+
+        {/* DESKTOP NAV */}
+        <nav className="hidden items-center gap-0.5 xl:flex">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`rounded-full px-3 py-2 text-sm font-semibold transition ${
+                isActive(link.href)
+                  ? "bg-brand-50 text-brand-800"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-brand-800"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <Link
+            href="/donate"
+            className="rounded-full bg-brand-800 px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-900 sm:px-5 sm:py-2.5 sm:text-sm"
+          >
+            Donate
           </Link>
 
-          {/* DESKTOP NAV */}
-          <nav className="hidden items-center gap-8 md:flex">
-            <Link
-              href="/"
-              className="text-sm font-semibold text-white transition hover:text-red-300"
-            >
-              Home
-            </Link>
-
-            <Link
-              href="/about"
-              className="text-sm font-semibold text-white transition hover:text-red-300"
-            >
-              About
-            </Link>
-
-            <Link
-              href="/newsletter"
-              className="text-sm font-semibold text-white transition hover:text-red-300"
-            >
-              Newsletter
-            </Link>
-
-            <Link
-              href="/gallery"
-              className="text-sm font-semibold text-white transition hover:text-red-300"
-            >
-              Gallery
-            </Link>
-
-            {/* PROGRAMS DROPDOWN - AUTO CLOSE ON MOUSE LEAVE */}
-            <div className="group relative py-6">
-              <button className="text-sm font-semibold text-white transition hover:text-red-300">
-                Programs ▾
-              </button>
-
-              <div className="invisible absolute left-0 top-full z-50 w-72 translate-y-3 rounded-3xl border border-slate-100 bg-white p-3 opacity-0 shadow-2xl transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                <Link
-                  href="/programs"
-                  className="block rounded-2xl px-5 py-4 font-bold text-emerald-700 transition hover:bg-emerald-50"
-                >
-                  All Programs
-                  <p className="mt-1 text-sm font-normal text-slate-500">
-                    Explore all Impact Generation Global programs.
-                  </p>
-                </Link>
-
-                <div className="my-2 h-px bg-slate-100" />
-
-                {programs.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="block rounded-2xl px-5 py-3 text-sm font-semibold text-slate-800 transition hover:bg-emerald-50 hover:text-emerald-700"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <Link
-              href="/contact"
-              className="text-sm font-semibold text-white transition hover:text-red-300"
-            >
-              Contact
-            </Link>
-
-            {/* DONATE DROPDOWN - AUTO CLOSE ON MOUSE LEAVE */}
-            <div className="group relative py-6">
-              <button className="rounded-full bg-red-600 px-6 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-red-700">
-                Donate ▾
-              </button>
-
-              <div className="invisible absolute right-0 top-full z-50 w-80 translate-y-3 overflow-hidden rounded-3xl border border-slate-100 bg-white opacity-0 shadow-2xl transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-                <a
-                  href={PAYPAL_DONATE_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block px-6 py-5 transition hover:bg-emerald-50"
-                >
-                  <p className="font-bold text-slate-900">Donate with PayPal</p>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-500">
-                    Make a secure online donation to support the mission.
-                  </p>
-                </a>
-
-                <a
-                  href={GOFUNDME_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block border-t border-slate-100 px-6 py-5 transition hover:bg-emerald-50"
-                >
-                  <p className="font-bold text-slate-900">Donate with GoFundMe</p>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-500">
-                    Support David Luby & Joe&apos;s Zambia leadership mission.
-                  </p>
-                </a>
-
-                <Link
-                  href="/donate"
-                  className="block border-t border-slate-100 px-6 py-5 transition hover:bg-emerald-50"
-                >
-                  <p className="font-bold text-emerald-700">
-                    Learn About The Mission →
-                  </p>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-500">
-                    See how your support helps transform lives in Zambia.
-                  </p>
-                </Link>
-              </div>
-            </div>
-          </nav>
-
-          {/* MOBILE BUTTON */}
           <button
             type="button"
-            onClick={() => setOpen(!open)}
-            className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-white md:hidden"
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition hover:bg-slate-50 xl:hidden"
           >
-            {open ? "✕" : "☰"}
+            <span aria-hidden="true" className="text-lg leading-none">
+              {open ? "✕" : "☰"}
+            </span>
           </button>
         </div>
-
-        {/* MOBILE MENU */}
-        {open && (
-          <div className="mt-3 rounded-3xl border border-white/10 bg-slate-950/95 p-6 shadow-2xl backdrop-blur-xl md:hidden">
-            <div className="flex flex-col gap-5">
-              <Link
-                href="/"
-                onClick={() => setOpen(false)}
-                className="font-semibold text-white"
-              >
-                Home
-              </Link>
-
-              <Link
-                href="/about"
-                onClick={() => setOpen(false)}
-                className="font-semibold text-white"
-              >
-                About
-              </Link>
-
-              <Link
-                href="/newsletter"
-                onClick={() => setOpen(false)}
-                className="font-semibold text-white"
-              >
-                Newsletter
-              </Link>
-
-              <Link
-                href="/gallery"
-                onClick={() => setOpen(false)}
-                className="font-semibold text-white"
-              >
-                Gallery
-              </Link>
-
-              <div>
-                <p className="mb-3 font-bold text-emerald-300">Programs</p>
-
-                <div className="ml-4 flex flex-col gap-3">
-                  <Link
-                    href="/programs"
-                    onClick={() => setOpen(false)}
-                    className="text-white"
-                  >
-                    All Programs
-                  </Link>
-
-                  {programs.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      className="text-white/85"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
-                className="font-semibold text-white"
-              >
-                Contact
-              </Link>
-
-              <div className="rounded-3xl bg-white p-4">
-                <p className="mb-3 font-bold text-slate-900">Donate</p>
-
-                <a
-                  href={PAYPAL_DONATE_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
-                  className="block rounded-2xl bg-red-600 px-5 py-3 text-center text-sm font-bold text-white"
-                >
-                  Donate with PayPal
-                </a>
-
-                <a
-                  href={GOFUNDME_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setOpen(false)}
-                  className="mt-3 block rounded-2xl bg-emerald-700 px-5 py-3 text-center text-sm font-bold text-white"
-                >
-                  Donate with GoFundMe
-                </a>
-
-                <Link
-                  href="/donate"
-                  onClick={() => setOpen(false)}
-                  className="mt-3 block rounded-2xl border border-emerald-200 px-5 py-3 text-center text-sm font-bold text-emerald-700"
-                >
-                  Learn About The Mission
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* MOBILE / TABLET MENU */}
+      {open && (
+        <div
+          id="mobile-menu"
+          className="fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-slate-100 bg-white px-5 pb-10 pt-2 xl:hidden"
+        >
+          <nav aria-label="Mobile navigation" className="flex flex-col">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className={`flex items-center justify-between border-b border-slate-100 py-4 text-base font-semibold ${
+                  isActive(link.href) ? "text-brand-800" : "text-slate-800"
+                }`}
+              >
+                {link.label}
+                <span aria-hidden="true" className="text-slate-300">
+                  →
+                </span>
+              </Link>
+            ))}
+          </nav>
+
+          <div className="mt-6 grid gap-3">
+            <a
+              href={PAYPAL_DONATE_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary w-full"
+            >
+              Donate with PayPal
+            </a>
+
+            <a
+              href={GOFUNDME_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline w-full"
+            >
+              Support on GoFundMe
+            </a>
+
+            <Link
+              href="/donate"
+              onClick={() => setOpen(false)}
+              className="pt-2 text-center text-sm font-semibold text-slate-500"
+            >
+              Learn about our mission →
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

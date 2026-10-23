@@ -1,180 +1,160 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import { site } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Contact Impact Generation Global in Zambia or the United States — partner with a program, volunteer, invite our team to your school or church, or ask a question.",
+  alternates: { canonical: "/contact" },
+};
+
+const offices = [
+  {
+    country: "Zambia",
+    flag: "🇿🇲",
+    name: "Fred Mbewe",
+    role: "Zambia Director",
+    email: "mbewefred1@gmail.com",
+    phone: "+260 977 427127",
+    tel: "+260977427127",
+  },
+  {
+    country: "United States",
+    flag: "🇺🇸",
+    name: "David Luby",
+    role: "USA Director",
+    email: "dluby60@gmail.com",
+    phone: "+1 (716) 984-2636",
+    tel: "+17169842636",
+  },
+];
+
+const reasons = [
+  {
+    title: "Partner with a program",
+    desc: "Churches, schools, businesses and organisations can partner with us on any program.",
+  },
+  {
+    title: "Volunteer",
+    desc: "Join our team of volunteers, mentors and supporters on the ground or remotely.",
+  },
+  {
+    title: "Invite us",
+    desc: "Ask us to visit your school, church or community for a session or outreach.",
+  },
+  {
+    title: "Support the mission",
+    desc: "Sponsor a program, a camp or a school term — or give once and let us allocate it.",
+  },
+];
 
 export default function ContactPage() {
   return (
     <main className="bg-white text-slate-900">
-      <section className="relative min-h-[70vh] overflow-hidden pt-28 text-white">
-        <Image
-          src="/images/contact-hero.jpg"
-          alt="Contact Impact Generation Global"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+      <section className="bg-brand-950 text-white">
+        <div className="shell py-14 md:py-20">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold-300">
+            Contact
+          </p>
 
-        <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/60 to-emerald-900/40" />
+          <h1 className="display mt-3 max-w-3xl text-4xl sm:text-5xl md:text-6xl">
+            We&apos;d love to hear from you
+          </h1>
 
-        <div className="relative z-20 flex min-h-[70vh] items-center">
-          <div className="mx-auto w-full max-w-7xl px-6">
-            <div className="max-w-3xl">
-              <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-200">
-                Impact Generation Global
-              </p>
-
-              <h1 className="mt-5 text-4xl font-black leading-tight md:text-6xl">
-                Contact Us
-              </h1>
-
-              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-200">
-                Partner with us, volunteer, sponsor a program, or learn more
-                about how we are transforming lives through faith, mentorship,
-                education, and community impact.
-              </p>
-            </div>
-          </div>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-brand-100/85 sm:text-lg sm:leading-8">
+            Whether you want to partner, volunteer, sponsor a program or simply
+            learn more — our team is ready to connect.
+          </p>
         </div>
       </section>
 
-      <section className="px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.25em] text-emerald-600">
-              Get In Touch
-            </p>
+      <section className="section">
+        <div className="shell grid gap-5 md:grid-cols-2">
+          {offices.map((office) => (
+            <article key={office.country} className="card p-6 sm:p-8">
+              <div className="flex items-center gap-2.5">
+                <span className="text-2xl" aria-hidden="true">
+                  {office.flag}
+                </span>
+                <h2 className="text-lg font-bold text-brand-950">
+                  {office.country} Office
+                </h2>
+              </div>
 
-            <h2 className="mt-3 text-3xl font-black md:text-5xl">
-              We'd Love To Hear From You
+              <p className="mt-4 text-sm font-semibold text-brand-950">
+                {office.name}
+              </p>
+              <p className="text-sm text-slate-500">{office.role}</p>
+
+              <div className="mt-5 space-y-2 text-sm">
+                <a
+                  href={`mailto:${office.email}`}
+                  className="block break-all font-semibold text-brand-800 hover:underline"
+                >
+                  {office.email}
+                </a>
+                <a
+                  href={`tel:${office.tel}`}
+                  className="block font-semibold text-brand-800 hover:underline"
+                >
+                  {office.phone}
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section bg-cream-100">
+        <div className="shell">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="eyebrow">Ways To Connect</p>
+            <h2 className="display mt-3 text-3xl text-brand-950 sm:text-4xl">
+              Let&apos;s build impact together
             </h2>
-
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
-              Whether you want to support a program, volunteer, donate, or
-              partner with us, our team is ready to connect.
-            </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-xl">
-              <div className="text-4xl">🇺🇸</div>
-              <h3 className="mt-5 text-2xl font-bold">USA Office</h3>
-              <p className="mt-3 font-semibold text-slate-800">David Luby</p>
-
-              <a
-                href="mailto:dluby60@gmail.com"
-                className="mt-3 block break-all text-slate-600 hover:text-emerald-700"
-              >
-                dluby60@gmail.com
-              </a>
-
-              <a
-                href="tel:+17169842636"
-                className="mt-2 block text-slate-600 hover:text-emerald-700"
-              >
-                +1 (716) 984-2636
-              </a>
-            </div>
-
-            <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-xl">
-              <div className="text-4xl">🇿🇲</div>
-              <h3 className="mt-5 text-2xl font-bold">Zambia Office</h3>
-              <p className="mt-3 font-semibold text-slate-800">Fred Mbewe</p>
-
-              <a
-                href="mailto:mbewefred1@gmail.com"
-                className="mt-3 block break-all text-slate-600 hover:text-emerald-700"
-              >
-                mbewefred1@gmail.com
-              </a>
-
-              <a
-                href="tel:+260977427127"
-                className="mt-2 block text-slate-600 hover:text-emerald-700"
-              >
-                +260 977 427127
-              </a>
-            </div>
+          <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {reasons.map((reason) => (
+              <div key={reason.title} className="card p-5">
+                <h3 className="text-base font-bold text-brand-950">
+                  {reason.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {reason.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 px-6 py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-14 text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.3em] text-emerald-600">
-              Why Reach Out?
-            </p>
-
-            <h2 className="mt-4 text-3xl font-black md:text-5xl">
-              Let's Build Impact Together
+      <section className="section bg-brand-950 text-white">
+        <div className="shell grid gap-8 py-2 md:grid-cols-2 md:items-center">
+          <div>
+            <h2 className="display text-2xl sm:text-3xl">
+              Follow the work daily
             </h2>
-
-            <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-              Whether you're an individual, church, business, school, or
-              ministry, we'd love to explore how we can work together to empower
-              young people, strengthen families, and transform communities
-              across Zambia and beyond.
+            <p className="mt-3 max-w-md text-base leading-7 text-brand-100/80">
+              Our Facebook page carries the most current stories, photos and
+              requests.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
-            <div className="rounded-3xl bg-white p-8 shadow-lg transition hover:-translate-y-2 hover:shadow-2xl">
-              <div className="mb-6 text-5xl">🤝</div>
-              <h3 className="text-2xl font-bold">Become A Partner</h3>
-              <p className="mt-4 leading-7 text-slate-600">
-                Churches, organizations, and businesses can partner with us to
-                expand youth mentorship, discipleship, education, and community
-                outreach.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white p-8 shadow-lg transition hover:-translate-y-2 hover:shadow-2xl">
-              <div className="mb-6 text-5xl">❤️</div>
-              <h3 className="text-2xl font-bold">Support The Mission</h3>
-              <p className="mt-4 leading-7 text-slate-600">
-                Every donation directly supports youth programs, school
-                ministry, community outreach, girls' empowerment, and leadership
-                development.
-              </p>
-            </div>
-
-            <div className="rounded-3xl bg-white p-8 shadow-lg transition hover:-translate-y-2 hover:shadow-2xl">
-              <div className="mb-6 text-5xl">🌍</div>
-              <h3 className="text-2xl font-bold">Volunteer With Us</h3>
-              <p className="mt-4 leading-7 text-slate-600">
-                Join our growing family of volunteers, mentors, and supporters
-                who are passionate about raising a generation with faith,
-                dignity, and purpose.
-              </p>
-            </div>
+          <div className="flex flex-col gap-3 sm:flex-row md:justify-end">
+            <a
+              href={site.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-gold"
+            >
+              Facebook
+            </a>
+            <Link href="/donate" className="btn btn-ghost">
+              Donate
+            </Link>
           </div>
-        </div>
-      </section>
-
-      <section className="bg-emerald-700 px-6 py-20 text-center text-white">
-        <h2 className="text-3xl font-black md:text-5xl">
-          Let's Make A Difference Together
-        </h2>
-
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-emerald-50">
-          Every partnership, donation, volunteer hour, and act of support helps
-          transform lives and strengthen communities.
-        </p>
-
-        <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-          <Link
-            href="/donate"
-            className="rounded-full bg-white px-8 py-4 font-bold text-emerald-800 transition hover:-translate-y-1"
-          >
-            Donate Today
-          </Link>
-
-          <Link
-            href="/about"
-            className="rounded-full border border-white/30 px-8 py-4 font-bold text-white transition hover:bg-white/10"
-          >
-            Learn More
-          </Link>
         </div>
       </section>
     </main>
