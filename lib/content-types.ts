@@ -1,0 +1,6 @@
+export type Rewrite = { caption: string; article: string; summary: string; headline: string; description: string };
+export type SourcePost = { id: string; text: string; published_at: string; updated_at: string; url: string; image_url: string | null; is_video: boolean; category: string; hash: string };
+export type Article = { id: string; source_id: string | null; source_hash: string | null; slug: string; title: string; body: string; summary: string; caption: string; description: string; status: 'draft' | 'approved' | 'rejected' | 'published'; category: string; published_at: string | null; notify: boolean; media_id: string | null; facebook_id: string | null; facebook_state: string; created_at: string };
+export type Issue = { id: string; slug: string; month: string; title: string; status: 'draft' | 'approved' | 'published'; articles: { title: string; body: string; source: string; date: string; media_id?: string | null }[]; retrieval_status: string; notify: boolean; created_at: string };
+export type Media = { id: string; source_id: string | null; storage_path: string; caption: string; category: string; event: string; approved: boolean; consent: boolean; hash: string };
+export type Subscriber = { id: string; email: string; status: string; frequency: string; confirmed_at: string | null; created_at: string };

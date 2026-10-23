@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import NewsletterArchive from "@/components/NewsletterArchive";
 import { newsletters } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function NewsletterPage() {
         </div>
       </section>
 
+      <NewsletterArchive/>
       <section className="section">
         <div className="shell space-y-6">
           {issues.map((issue, index) => (
@@ -111,8 +113,8 @@ export default function NewsletterPage() {
               Never miss an update
             </h2>
             <p className="prose-body mt-4">
-              Follow us on Facebook for daily stories from the field, or ask our
-              team to add you to the mailing list.
+              Follow us on Facebook for daily stories from the field, or subscribe to receive
+              verified ministry news by email.
             </p>
           </div>
 
@@ -120,8 +122,8 @@ export default function NewsletterPage() {
             <Link href="/blog" className="btn btn-primary">
               Daily updates
             </Link>
-            <Link href="/contact" className="btn btn-outline">
-              Join the mailing list
+            <Link href="/subscribe" className="btn btn-outline">
+              Subscribe to the newsletter
             </Link>
           </div>
         </div>

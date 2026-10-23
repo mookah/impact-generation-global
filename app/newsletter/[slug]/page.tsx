@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import styles from "./newsletter.module.css";
 import PrintButton from "./PrintButton";
 import { newsletters } from "@/lib/site";
+
+import DynamicNewsletter from "@/components/DynamicNewsletter";
+import { getIssue } from "@/lib/server/public-content";
+export const dynamic = "force-dynamic";
 
 const ORG = "Impact Generation Global";
 const ISSUE = "AUGUST 2026";
@@ -19,7 +22,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const issue = newsletters.find((item) => item.slug === slug);
 
-  if (!issue) return { title: "Newsletter not found" };
+  if (!issue) {
+    const edition = await getIssue(slug);
+    return { title: edition?.title || "Newsletter in preparation", robots: { index: edition?.status === "published", follow: edition?.status === "published" }, alternates: { canonical: `/newsletter/${slug}` } };
+  }
 
   return {
     title: issue.title,
@@ -32,7 +38,7 @@ export default async function NewsletterIssuePage({ params }: Params) {
   const { slug } = await params;
   const issue = newsletters.find((item) => item.slug === slug);
 
-  if (!issue) notFound();
+  if (!issue) return <DynamicNewsletter slug={slug}/>;
 
   return (
     <main className={styles.site}>

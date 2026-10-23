@@ -65,10 +65,10 @@ export default function Footer() {
             </Link>
 
             <Link
-              href="/newsletter"
+              href="/subscribe"
               className="btn !border !border-white/20 !bg-white/5 !px-6 !py-3 text-sm text-white hover:!bg-white/10"
             >
-              Newsletter
+              Subscribe
             </Link>
           </div>
         </div>

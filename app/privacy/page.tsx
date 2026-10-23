@@ -18,7 +18,7 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="mt-3 text-sm font-semibold text-gold-300">
-            Last updated: 1 January 2026
+            Last updated: 23 October 2026
           </p>
         </div>
       </section>
@@ -50,13 +50,18 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="text-lg font-bold text-brand-950">
-              Third-party services
+              Email subscriptions and AI assistance
             </h2>
             <p className="prose-body mt-2">
-              This website embeds a Facebook page feed. Facebook may set cookies
-              in line with its own privacy policy. Donations are handled by
-              PayPal and GoFundMe, each governed by their own terms.
+              We store your email, selected frequency, consent and confirmation
+              dates in secure server-side storage. Emails are sent only after
+              confirmation. Each email includes preferences and unsubscribe links.
+              Supabase provides storage and authentication; Resend delivers email.
+              Contact us to request deletion. We retain preferences while needed
+              to manage subscriptions and prevent unwanted email.
             </p>
+            <p className="prose-body mt-2">IMPACT AI sends your conversation and public website information to our AI provider. Subscriber and donor records are excluded. Please keep sensitive personal details and identifying information about children out of chat. Verify AI answers against linked sources. Abuse controls use hashed network identifiers and short-lived request counts.</p>
+            <p className="prose-body mt-2">Facebook embeds may set cookies under Facebook&apos;s privacy policy. PayPal and GoFundMe process donations under their own terms.</p>
           </div>
 
           <div>

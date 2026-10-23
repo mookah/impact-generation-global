@@ -1,3 +1,4 @@
+import { configured, db } from "@/lib/server/core";
 import type { Metadata } from "next";
 import Link from "next/link";
 import EventsCalendar from "@/components/EventsCalendar";
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/events" },
 };
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const approved = configured() ? await db<{id:string;title:string;date:string;location:string}[]>("igg_events?approved=eq.true&order=date.asc&limit=100") : [];
   return (
     <main className="bg-white text-slate-900">
       <section className="bg-brand-950 text-white">
@@ -32,7 +34,7 @@ export default function EventsPage() {
 
       <section className="section">
         <div className="shell">
-          <EventsCalendar events={events} />
+          <div className="mb-8 grid gap-4 sm:grid-cols-2">{approved.map(e=><Link className="card p-5" key={e.id} href={`/events/${e.id}`}><h2 className="text-xl font-bold">{e.title}</h2><p className="mt-2 text-sm">{new Date(e.date).toLocaleString('en-GB',{timeZone:'Africa/Lusaka'})} ? {e.location}</p></Link>)}</div><EventsCalendar events={events} />
         </div>
       </section>
 

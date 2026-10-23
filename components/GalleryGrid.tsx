@@ -50,18 +50,16 @@ const IMAGES: Shot[] = [
   { src: "/images/pastors-kids-6.webp", alt: "Pastors Kids event", category: "Pastors Kids" },
 ];
 
-const CATEGORIES = [
-  "All",
-  ...Array.from(new Set(IMAGES.map((image) => image.category))),
-];
 
-export default function GalleryGrid() {
+export default function GalleryGrid({ extraImages = [], includeExisting = true }: { extraImages?: Shot[]; includeExisting?: boolean }) {
+  const images = useMemo(() => [...extraImages, ...(includeExisting ? IMAGES : [])], [extraImages, includeExisting]);
+  const categories = ["All", ...Array.from(new Set(images.map(image => image.category)))];
   const [active, setActive] = useState("All");
   const [lightbox, setLightbox] = useState(-1);
 
   const visible = useMemo(
-    () => (active === "All" ? IMAGES : IMAGES.filter((i) => i.category === active)),
-    [active]
+    () => (active === "All" ? images : images.filter((i) => i.category === active)),
+    [active, images]
   );
 
   useEffect(() => {
@@ -88,7 +86,7 @@ export default function GalleryGrid() {
     <>
       {/* FILTERS */}
       <div className="flex flex-wrap gap-2">
-        {CATEGORIES.map((category) => (
+        {categories.map((category) => (
           <button
             key={category}
             type="button"
@@ -120,6 +118,7 @@ export default function GalleryGrid() {
           >
             <Image
               src={image.src}
+                  unoptimized={image.src.startsWith("/api/media/")}
               alt={image.alt}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -170,6 +169,7 @@ export default function GalleryGrid() {
             <div className="relative aspect-[4/3] w-full">
               <Image
                 src={visible[lightbox].src}
+                  unoptimized={visible[lightbox].src.startsWith("/api/media/")}
                 alt={visible[lightbox].alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 896px"

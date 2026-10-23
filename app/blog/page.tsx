@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PublishedStories from "@/components/PublishedStories";
 import BlogFeed from "@/components/BlogFeed";
 import FacebookFeed from "@/components/FacebookFeed";
 import { posts, site } from "@/lib/site";
@@ -31,6 +32,7 @@ export default function BlogPage() {
         </div>
       </section>
 
+      <PublishedStories/>
       <section className="section">
         <div className="shell grid gap-12 lg:grid-cols-[1fr_360px] lg:gap-10">
           {/* MANUAL POSTS */}

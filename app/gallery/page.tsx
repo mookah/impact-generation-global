@@ -1,3 +1,4 @@
+import { approvedMedia } from "@/lib/server/public-content";
 import type { Metadata } from "next";
 import Link from "next/link";
 import GalleryGrid from "@/components/GalleryGrid";
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/gallery" },
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const media = await approvedMedia();
   return (
     <main className="bg-white text-slate-900">
       <section className="bg-brand-950 text-white">
@@ -31,7 +33,7 @@ export default function GalleryPage() {
 
       <section className="section">
         <div className="shell">
-          <GalleryGrid />
+          <GalleryGrid extraImages={media.map(m => ({ src: `/api/media/${m.id}`, alt: m.caption, category: m.event || m.category }))} />
         </div>
       </section>
 

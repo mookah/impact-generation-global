@@ -351,8 +351,8 @@ export default function Home() {
               <Link href="/donate" className="btn btn-gold">
                 Donate &amp; partner with us
               </Link>
-              <Link href="/contact" className="btn btn-ghost">
-                Get involved
+              <Link href="/subscribe" className="btn btn-ghost">
+                Subscribe to updates
               </Link>
             </div>
           </div>

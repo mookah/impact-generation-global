@@ -1,7 +1,9 @@
 import type { MetadataRoute } from "next";
 import { newsletters, posts, programs, site } from "@/lib/site";
+import { publicArticles, publicIssues } from "@/lib/server/public-content";
+export const dynamic = "force-dynamic";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -39,5 +41,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...programRoutes, ...postRoutes, ...newsletterRoutes];
+  const [articles, issues] = await Promise.all([publicArticles(), publicIssues()]);
+  return [...staticRoutes, ...programRoutes, ...postRoutes, ...newsletterRoutes,
+    ...articles.map(a => ({ url: `${site.url}/news/${a.slug}`, lastModified: new Date(a.published_at!) })),
+    ...issues.map(n => ({ url: `${site.url}/newsletter/${n.slug}`, lastModified: new Date(n.created_at) })),
+    { url: `${site.url}/subscribe` }, { url: `${site.url}/updates` }, { url: `${site.url}/gallery/events` },
+  ];
 }

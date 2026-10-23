@@ -59,7 +59,7 @@ export function isTrustedFacebookUrl(value: string): boolean {
 }
 
 export async function getFacebookUpdates(limit = 15): Promise<FacebookFeed> {
-  const pageId = process.env.FACEBOOK_PAGE_ID;
+  const pageId = process.env.FACEBOOK_PAGE_ID || "370924362777718";
   const token = process.env.FACEBOOK_PAGE_ACCESS_TOKEN;
   if (!pageId || !token) return { status: "unconfigured", posts: [] };
 
@@ -78,6 +78,7 @@ export async function getFacebookUpdates(limit = 15): Promise<FacebookFeed> {
   try {
     const response = await fetch(endpoint, {
       headers: { Authorization: "Bearer " + token },
+      signal: AbortSignal.timeout(15000),
       next: { revalidate: 600 },
     });
     if (!response.ok) {
@@ -110,7 +111,7 @@ export async function getFacebookUpdates(limit = 15): Promise<FacebookFeed> {
     });
     return { status: "connected", posts };
   } catch (error) {
-    console.error("Facebook Page sync network error", error instanceof Error ? error.message : "unknown");
+      void error; // Never log provider errors: they may contain credential-bearing URLs.
     return { status: "unavailable", posts: [] };
   }
 }

@@ -1,20 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ImpactAssistant from "@/components/ImpactAssistant";
 import { site } from "@/lib/site";
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: "../public/fonts/inter-latin.woff2",
+  weight: "100 900",
   display: "swap",
   variable: "--font-inter",
 });
 
-const display = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+const display = localFont({
+  src: "../public/fonts/plusjakartasans-latin.woff2",
   display: "swap",
-  weight: ["600", "700", "800"],
+  weight: "200 800",
   variable: "--font-display",
 });
 
@@ -129,6 +131,7 @@ export default function RootLayout({
         <main id="main">{children}</main>
 
         <Footer />
+        <ImpactAssistant />
       </body>
     </html>
   );

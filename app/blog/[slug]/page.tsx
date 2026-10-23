@@ -126,6 +126,7 @@ export default async function PostPage({ params }: Params) {
             </div>
 
             <div className="mt-10 flex flex-col gap-3 border-t border-slate-100 pt-8 sm:flex-row">
+              <Link href="/subscribe" className="btn btn-outline">Subscribe to updates</Link>
               <Link href="/donate" className="btn btn-primary">
                 Support this work
               </Link>
