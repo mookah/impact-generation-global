@@ -6,7 +6,7 @@ A cryptographically random 32-byte salt has been generated in the ignored local 
 
 ## Vercel
 
-The existing local Vercel login returned HTTP 403 (`Not authorized`), so remote configuration could not be changed.
+The initial local Vercel login returned HTTP 403 (`Not authorized`). The official CLI subsequently refreshed the session and confirmed account `mookah` with access to `mookahs-projects/impact-generation-global`. The same local `RATE_LIMIT_SALT` has now been stored as a hidden Secret in Development, Preview and Production. No Production deployment was performed. The steps below are for future configuration recovery.
 
 1. Sign in to Vercel and open **mookahs-projects → impact-generation-global → Settings → Environment Variables**.
 2. Add the server-only key **`RATE_LIMIT_SALT`**. Copy its value directly from your local `.env.local` in the editor into Vercel's secret-value field. Do not paste the value into chat, source code or logs. Do not use a `NEXT_PUBLIC_` prefix.
