@@ -72,3 +72,36 @@ The current phase 1 feed is read-only; it does **not** create permanent articles
 - Google's current Ad Grants website policy states not to display AdSense ads on the website used for Ad Grants. Prioritize grant eligibility and mission-specific support over display advertising.
 - For actual charitable grants, prepare registration documents, governance, policies, bank details, program budgets, evidenced impact, financial reports, safeguarding, and clear project proposals. Do not publicly post sensitive documentation.
 - Do not add AdSense scripts unless the organization explicitly chooses that revenue path and independently verifies Google policy compliance.
+
+## Phase 2A — Zero-duplicate Facebook editorial workflow (requested 23 Oct 2026)
+
+**Non-negotiable rule: never automatically create a second Facebook post just to polish an existing one.** Store the original Facebook post ID and link throughout the workflow. Preserve the original content, attribution, timestamps, images and edit status in the editorial record.
+
+### When a post was written manually in the Facebook app
+- Import the Page's own post using authorized read-only access.
+- Generate a *draft* using an AI rewriting model, preserving the original facts, people, dates, quotes and ministry intent. Do not invent attendance, achievements, funding figures, spiritual testimonies or consent.
+- Show original and polished versions side-by-side in the website's admin dashboard.
+- Let an authorized Page editor click **Copy revised caption**, then use **Edit post** on the *same original Facebook post* inside Facebook. Provide a link to the existing post; never create a new Facebook post automatically.
+- After manual editing, synchronize that original post ID again, recognize the change and update the existing website article without inserting a duplicate.
+- The exact Meta API support varies by app, Graph version and post type. Do **not** assume a Page token allows automatic editing of any existing post. Many existing posts made in Facebook's own UI are not editable by third-party apps. Never promise automated in-place edits unless a live permission/ownership verification proves the exact post is eligible.
+
+### When a post is created through the website's admin dashboard
+- Write casually in the editor, optionally add an event/category and approved photographs.
+- Generate two drafts: (1) a professional Facebook caption and (2) an SEO-friendly website article. Preview and approve both.
+- Publish the approved Facebook caption **once** through a Meta-approved app and Page access token with appropriate publish privileges. Save the returned Facebook post ID and permalink immediately.
+- If Meta confirms that this app may edit the particular post, allow optional future in-place text revisions after human review, using the *same original post ID*. If Meta refuses edit permissions, direct the editor to update manually in Facebook; never fall back to new-post creation silently.
+- Track post lifecycle states: imported -> draft -> review -> approved -> published -> updated -> unavailable. Use source_id unique constraints to prevent repeated import, and publish idempotency keys to prevent duplicate Page writes on retries.
+- Log editor, revision timestamps, source snapshot, AI model, and publish response (without storing raw access tokens).
+
+### AI content safety and quality
+- Never overwrite live Facebook copy without explicit editorial approval in the initial rollout.
+- Preserve prayer requests/testimonies as given and flag private or sensitive stories for manual review; especially ensure safeguards for children's names, images and circumstances.
+- No invented quotes, statistical results, success claims, or grant eligibility.
+- Professional, compassionate, optimistic nonprofit tone; one clear opening, brief paragraphs, precise facts, and a purposeful call-to-action if supported.
+- A change in Facebook wording should update the corresponding website article record, not create a second article.
+
+### Dependencies
+- An approved Meta app and Page access authorization; an administrator with Page permissions.
+- A secured CMS/editorial database and audit log; AI model backend and secret key; optional scheduled reconciliation jobs.
+- A real permissions test to verify whether a particular app-created post can be edited via the selected Graph version.
+- Human-in-the-loop approval as default for Facebook edits and AI outputs.
