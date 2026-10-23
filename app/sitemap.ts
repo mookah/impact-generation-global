@@ -1,28 +1,43 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/site";
-
-const pages = [
-  { path: "", priority: 1, changeFrequency: "weekly" as const },
-  { path: "/about", priority: 0.9, changeFrequency: "monthly" as const },
-  { path: "/programs", priority: 0.9, changeFrequency: "monthly" as const },
-  { path: "/boys-to-men", priority: 0.8, changeFrequency: "monthly" as const },
-  { path: "/pad-a-girl", priority: 0.8, changeFrequency: "monthly" as const },
-  { path: "/school-ministry", priority: 0.8, changeFrequency: "monthly" as const },
-  { path: "/cycle-for-change", priority: 0.8, changeFrequency: "monthly" as const },
-  { path: "/pastors-kids", priority: 0.8, changeFrequency: "monthly" as const },
-  { path: "/youth-camps", priority: 0.8, changeFrequency: "monthly" as const },
-  { path: "/updates", priority: 0.9, changeFrequency: "daily" as const },
-  { path: "/gallery", priority: 0.7, changeFrequency: "weekly" as const },
-  { path: "/gallery/events", priority: 0.7, changeFrequency: "weekly" as const },
-  { path: "/newsletter", priority: 0.8, changeFrequency: "monthly" as const },
-  { path: "/donate", priority: 0.9, changeFrequency: "monthly" as const },
-  { path: "/contact", priority: 0.7, changeFrequency: "monthly" as const },
-];
+import { newsletters, posts, programs, site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return pages.map(({ path, changeFrequency, priority }) => ({
-    url: SITE_URL + path,
-    changeFrequency,
-    priority,
+  const now = new Date();
+
+  const staticRoutes: MetadataRoute.Sitemap = [
+    { url: `${site.url}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    { url: `${site.url}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${site.url}/programs`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${site.url}/events`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${site.url}/gallery`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${site.url}/blog`, lastModified: now, changeFrequency: "daily", priority: 0.8 },
+    { url: `${site.url}/newsletter`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${site.url}/donate`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${site.url}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
+    { url: `${site.url}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${site.url}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+  ];
+
+  const programRoutes: MetadataRoute.Sitemap = programs.map((program) => ({
+    url: `${site.url}/programs/${program.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
   }));
+
+  const postRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${site.url}/blog/${post.slug}`,
+    lastModified: new Date(`${post.date}T00:00:00`),
+    changeFrequency: "yearly",
+    priority: 0.6,
+  }));
+
+  const newsletterRoutes: MetadataRoute.Sitemap = newsletters.map((issue) => ({
+    url: `${site.url}/newsletter/${issue.slug}`,
+    lastModified: now,
+    changeFrequency: "yearly",
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...programRoutes, ...postRoutes, ...newsletterRoutes];
 }

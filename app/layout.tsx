@@ -1,59 +1,134 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ImpactAssistant from "@/components/ImpactAssistant";
-import { FACEBOOK_PAGE_URL, SITE_URL } from "@/lib/site";
+import { site } from "@/lib/site";
 
-const description =
-  "Impact Generation Global is a Christ-centered nonprofit helping young people in Zambia through discipleship, mentorship, education, youth camps, healthy living, and community outreach.";
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const display = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["600", "700", "800"],
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: { default: "Impact Generation Global | Empowering a Generation", template: "%s | Impact Generation Global" },
-  description,
-  applicationName: "Impact Generation Global",
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} | Youth Empowerment in Zambia`,
+    template: `%s | ${site.name}`,
+  },
+  description: site.description,
+  applicationName: site.name,
   keywords: [
-    "Impact Generation Global", "Zambia youth empowerment", "Zambia nonprofit",
-    "youth mentorship Zambia", "Pad a Girl", "Boys to Men",
-    "Cycle for Change", "Christian youth ministry", "community outreach Zambia",
+    "Impact Generation Global",
+    "youth empowerment Zambia",
+    "Christian youth ministry Zambia",
+    "discipleship",
+    "mentorship",
+    "Pad A Girl",
+    "Boys To Men",
+    "Cycle For Change",
+    "school ministry",
+    "youth camps",
+    "nonprofit Zambia",
   ],
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    siteName: "Impact Generation Global",
-    url: SITE_URL,
-    title: "Impact Generation Global | Empowering a Generation",
-    description,
     locale: "en_ZM",
-    images: [{ url: "/images/hero.jpg", alt: "Impact Generation Global youth ministry and community transformation" }],
+    url: site.url,
+    siteName: site.name,
+    title: `${site.name} | Empowering a generation`,
+    description: site.description,
+    images: [
+      {
+        url: "/images/hero.webp",
+        width: 1200,
+        height: 630,
+        alt: `${site.name} — young people in Zambia`,
+      },
+    ],
   },
-  twitter: { card: "summary_large_image", title: "Impact Generation Global", description, images: ["/images/hero.jpg"] },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} | Empowering a generation`,
+    description: site.description,
+    images: ["/images/hero.webp"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  category: "nonprofit",
 };
 
-const organizationData = {
+export const viewport: Viewport = {
+  themeColor: "#123f78",
+  width: "device-width",
+  initialScale: 1,
+};
+
+const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Impact Generation Global",
-  url: SITE_URL,
-  logo: SITE_URL + "/logo-new.png",
-  description,
-  sameAs: [FACEBOOK_PAGE_URL],
-  areaServed: { "@type": "Country", name: "Zambia" },
+  "@type": "NGO",
+  name: site.name,
+  alternateName: site.shortName,
+  url: site.url,
+  logo: `${site.url}/logo-new.png`,
+  description: site.description,
+  email: site.email,
+  sameAs: [site.facebook, site.youtube],
+  areaServed: ["Zambia", "United States"],
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "ZM",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
-      <body className="bg-white text-slate-900">
+    <html
+      lang="en"
+      className={`${inter.variable} ${display.variable}`}
+      data-scroll-behavior="smooth"
+    >
+      <body className="bg-white text-slate-900 antialiased">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
         />
+
         <Navbar />
-        <main>{children}</main>
+
+        <main id="main">{children}</main>
+
         <Footer />
-        <ImpactAssistant />
       </body>
     </html>
   );
