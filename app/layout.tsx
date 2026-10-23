@@ -33,14 +33,13 @@ export const metadata: Metadata = {
 
 const organizationData = {
   "@context": "https://schema.org",
-  "@type": "NGO",
+  "@type": "Organization",
   name: "Impact Generation Global",
   url: SITE_URL,
   logo: SITE_URL + "/logo-new.png",
   description,
   sameAs: [FACEBOOK_PAGE_URL],
   areaServed: { "@type": "Country", name: "Zambia" },
-  nonprofitStatus: "Nonprofit501c3",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
