@@ -181,6 +181,21 @@ export default function Navbar() {
               </Link>
 
               <Link
+                href="/updates"
+                className="text-sm font-semibold text-white transition hover:text-red-300"
+              >
+                Updates
+              </Link>
+
+              <Link
+                href="/updates"
+                onClick={() => setOpen(false)}
+                className="font-semibold text-white"
+              >
+                Updates
+              </Link>
+
+              <Link
                 href="/newsletter"
                 onClick={() => setOpen(false)}
                 className="font-semibold text-white"
