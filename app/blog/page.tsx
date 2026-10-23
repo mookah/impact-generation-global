@@ -34,9 +34,9 @@ export default function BlogPage() {
 
       <PublishedStories/>
       <section className="section">
-        <div className="shell grid gap-12 lg:grid-cols-[1fr_360px] lg:gap-10">
+        <div className="shell grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(300px,360px)] lg:gap-10">
           {/* MANUAL POSTS */}
-          <div>
+          <div className="min-w-0">
             <div className="flex items-baseline justify-between">
               <h2 className="text-lg font-bold text-brand-950 sm:text-xl">
                 Latest posts
@@ -55,12 +55,13 @@ export default function BlogPage() {
           </div>
 
           {/* FACEBOOK */}
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <h2 className="text-base font-bold text-brand-950">
+          <aside className="min-w-0 lg:self-start">
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-brand-700">From our official Page</p>
+            <h2 className="mt-2 text-xl font-bold text-brand-950">
               Daily from Facebook
             </h2>
             <p className="mt-1 text-sm leading-6 text-slate-600">
-              Everything we post on Facebook appears here automatically.
+              The latest moments and ministry updates, shared by Impact Generation Global.
             </p>
 
             <div className="mt-4">
@@ -70,14 +71,6 @@ export default function BlogPage() {
               />
             </div>
 
-            <a
-              href={site.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-outline mt-4 w-full text-sm"
-            >
-              Follow us on Facebook
-            </a>
           </aside>
         </div>
       </section>

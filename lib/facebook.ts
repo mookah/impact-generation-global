@@ -12,6 +12,7 @@ export type ImpactUpdate = {
   imageUrl: string | null;
   isVideo: boolean;
   event: string;
+  videoUrl?:string|null;
 };
 
 export type FacebookFeed = {
@@ -22,6 +23,9 @@ export type FacebookFeed = {
 type MetaAttachment = {
   media_type?: string;
   type?: string;
+  url?:string;
+  target?:{url?:string};
+  media?:{image?:{src?:string}};
   subattachments?: { data?: MetaAttachment[] };
 };
 
@@ -38,10 +42,12 @@ const eventPatterns: Array<[RegExp, string]> = [
   [/youth\s+camps?|\bcamp\s+20\d{2}\b/i, "Youth Camps"],
   [/cycle\s+for\s+change|\bcycling\b|\bbicycle/i, "Cycle for Change"],
   [/pad\s+a\s+girl|menstrual\s+health|dignity\s+kit/i, "Pad a Girl"],
-  [/boys\s+to\s+men|mentorship\s+for\s+boys/i, "Boys to Men"],
+  [/boys\s*(?:to|2)\s*men|mentorship\s+for\s+boys/i, "Boys to Men"],
   [/pastors?\s+kids|pastors?\s+children/i, "Pastors Kids"],
   [/school\s+ministry|school\s+outreach|\bstudents\b/i, "School Ministry"],
   [/crusade|evangelis[mt]|outreach/i, "Community Outreach"],
+  [/partnership|partnering|collaborat/i, "Partnerships"],
+  [/youth\s+empowerment|leadership\s+development/i, "Youth Empowerment"],
 ];
 
 export function classifyEvent(text: string): string {
@@ -51,7 +57,7 @@ export function classifyEvent(text: string): string {
 export function isTrustedFacebookUrl(value: string): boolean {
   try {
     const url = new URL(value);
-    return url.protocol === "https:" &&
+    return url.protocol === "https:" && !url.username && !url.password && !url.searchParams.has('access_token') &&
       (url.hostname === "facebook.com" || url.hostname.endsWith(".facebook.com"));
   } catch {
     return false;
@@ -71,7 +77,7 @@ export async function getFacebookUpdates(limit = 15): Promise<FacebookFeed> {
   );
   endpoint.searchParams.set(
     "fields",
-    "id,message,created_time,permalink_url,full_picture,attachments{media_type,type,subattachments}"
+    "id,message,created_time,permalink_url,full_picture,attachments{media_type,type,url,target,media,subattachments{media_type,type,url,target,media}}"
   );
   endpoint.searchParams.set("limit", String(Math.min(Math.max(limit, 1), 50)));
 
@@ -90,14 +96,15 @@ export async function getFacebookUpdates(limit = 15): Promise<FacebookFeed> {
     const posts: ImpactUpdate[] = (body.data ?? []).flatMap((post) => {
       if (!post.id || !post.permalink_url ||
           !isTrustedFacebookUrl(post.permalink_url) || !post.created_time) return [];
-      const attachments = post.attachments?.data ?? [];
+      const attachments = (post.attachments?.data ?? []).flatMap(a=>[a,...(a.subattachments?.data||[])]);
       const isVideo = attachments.some(
         (item) => item.media_type === "video" ||
           item.type?.toLowerCase().includes("video")
       );
       const text = (post.message || "").trim();
-      const imageUrl = post.full_picture?.startsWith("https://")
-        ? post.full_picture
+      const picture=attachments.find(a=>/video/i.test(`${a.media_type} ${a.type}`))?.media?.image?.src||post.full_picture;
+      const imageUrl = picture?.startsWith("https://")
+        ? picture
         : null;
       return [{
         id: post.id,
@@ -107,6 +114,7 @@ export async function getFacebookUpdates(limit = 15): Promise<FacebookFeed> {
         imageUrl,
         isVideo,
         event: classifyEvent(text),
+        videoUrl:attachments.map(a=>a.target?.url||a.url).find(u=>u&&isTrustedFacebookUrl(u)&&/\/(?:videos|reel|watch)(?:\/|\?)/i.test(u))||null,
       }];
     });
     return { status: "connected", posts };

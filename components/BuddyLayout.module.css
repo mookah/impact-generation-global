@@ -1,0 +1,38 @@
+.widget{bottom:max(12px,env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right));max-width:calc(100vw - 24px)}
+.launcher{min-height:56px}
+.more{display:none}
+@media(max-width:639px){
+ .widget{bottom:calc(max(12px,env(safe-area-inset-bottom)) + var(--buddy-keyboard-offset,0px))}
+ .launcher{width:56px;height:56px;min-height:56px;padding:4px;justify-content:center}
+ .launcher>svg{width:36px;height:42px}
+ .launcher>span{display:none}
+ .widget[data-chat-open=true] .launcher{display:none}
+ .greeting{width:min(280px,calc(100vw - 24px));max-height:min(400px,55dvh);padding:12px;margin-bottom:10px;border-radius:20px;overscroll-behavior:contain}
+ .greetingHeader{position:sticky;top:-12px;background:white;z-index:1}
+ .greetingHeader svg{width:40px;height:48px}
+ .greetingHeader h2{font-size:16px}
+ .greetingHeader p{display:none}
+ .greetingHeader>button{width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+ .welcome{font-size:12px;line-height:1.5;margin-top:6px}
+ .greeting[data-details-open=false] .welcome{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ .greeting[data-details-open=false] .details{display:none}
+ .greetingFooter{display:flex;gap:8px;margin-top:10px}
+ .greetingFooter>button{flex:1;min-height:44px;margin:0;padding:8px;font-size:12px}
+ .more{display:block;border:1px solid #cbd5e1;border-radius:12px;color:#123f78;font-weight:700}
+ .chat{width:min(340px,calc(100vw - 24px));height:min(380px,60dvh,var(--buddy-available-height,calc(100dvh - 24px)));margin-bottom:0;border-radius:20px}
+ .chatHeader{padding:8px 10px;flex-shrink:0;gap:6px}
+ .chatHeader>div{min-width:0;gap:6px}
+ .chatHeader svg{width:32px;height:38px}
+ .chatHeader p:first-child{font-size:13px}
+ .chatHeader p:last-child{display:none}
+ .chatHeader>button{width:44px;height:44px;padding:10px;flex-shrink:0}
+ .chatHeader>button svg{width:20px;height:20px}
+ .minimize{display:none}
+ .messages{min-height:0;padding:10px;overscroll-behavior:contain}
+ .messages>div{font-size:12px;line-height:1.6;margin-left:0;margin-right:0;padding:9px}
+ .composer{padding:8px;flex-shrink:0}
+ .composer input{font-size:16px;padding:9px 12px}
+ .shortcuts{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;margin-bottom:7px}
+ .shortcuts>button{flex-shrink:0;font-size:10px;padding:5px 10px}
+}
+@media(min-width:640px){.widget{bottom:24px;right:24px}.shortcuts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}}

@@ -1,8 +1,8 @@
-import { configured, db } from "@/lib/server/core";
+import { calendarEvents } from "@/lib/server/events";
 import type { Metadata } from "next";
 import Link from "next/link";
 import EventsCalendar from "@/components/EventsCalendar";
-import { events } from "@/lib/site";
+export const dynamic="force-dynamic";
 
 export const metadata: Metadata = {
   title: "Events Calendar",
@@ -11,8 +11,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/events" },
 };
 
-export default async function EventsPage() {
-  const approved = configured() ? await db<{id:string;title:string;date:string;location:string}[]>("igg_events?approved=eq.true&order=date.asc&limit=100") : [];
+export default async function EventsPage({searchParams}:{searchParams:Promise<{event?:string}>}) {
+  const events=await calendarEvents();
+  const {event}=await searchParams;
   return (
     <main className="bg-white text-slate-900">
       <section className="bg-brand-950 text-white">
@@ -34,7 +35,7 @@ export default async function EventsPage() {
 
       <section className="section">
         <div className="shell">
-          <div className="mb-8 grid gap-4 sm:grid-cols-2">{approved.map(e=><Link className="card p-5" key={e.id} href={`/events/${e.id}`}><h2 className="text-xl font-bold">{e.title}</h2><p className="mt-2 text-sm">{new Date(e.date).toLocaleString('en-GB',{timeZone:'Africa/Lusaka'})} ? {e.location}</p></Link>)}</div><EventsCalendar events={events} />
+          <EventsCalendar events={events} initialEventId={event} />
         </div>
       </section>
 

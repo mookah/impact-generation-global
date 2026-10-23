@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getFacebookUpdates } from "@/lib/facebook";
 import { FACEBOOK_PAGE_URL } from "@/lib/site";
-import FacebookVideoPreview from "@/components/FacebookVideoPreview";
+import { UpdateCard } from "@/components/FacebookFeed";
+import { latestFacebookPosts } from "@/lib/facebook-display";
 
 export const metadata: Metadata = {
   title: "Latest News & Updates",
@@ -11,11 +12,12 @@ export const metadata: Metadata = {
 };
 
 export default async function UpdatesPage() {
-  const feed = await getFacebookUpdates(18);
+  const feed = await getFacebookUpdates(30);
+  const updates=latestFacebookPosts(feed.posts,18);
 
   return (
     <main className="min-h-screen bg-slate-50 pb-20 text-slate-900">
-      <section className="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-900 px-6 pb-20 pt-40 text-white">
+      <section className="bg-gradient-to-r from-slate-950 via-brand-950 to-slate-900 px-6 pb-20 pt-40 text-white">
         <div className="mx-auto max-w-6xl">
           <p className="text-xs font-black uppercase tracking-[.25em] text-amber-300">Impact Generation Global</p>
           <h1 className="mt-4 text-5xl font-black tracking-tight sm:text-6xl">Latest News & Updates</h1>
@@ -32,35 +34,9 @@ export default async function UpdatesPage() {
             Visit Facebook →
           </a>
         </div>
-        {feed.posts.length > 0 ? (
+        {updates.length > 0 ? (
           <div className="grid gap-6 md:grid-cols-2">
-            {feed.posts.map((post) => (
-              <article key={post.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">{post.event}</span>
-                  <time className="text-xs text-slate-500" dateTime={post.publishedAt}>
-                    {new Date(post.publishedAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" })}
-                  </time>
-                </div>
-                {post.isVideo ? (
-                  <div className="mt-5"><FacebookVideoPreview url={post.url} title={"Impact Generation Facebook video " + post.id}/></div>
-                ) : post.imageUrl ? (
-                  <a href={post.url} target="_blank" rel="noopener noreferrer" aria-label="Open original Facebook photograph">
-                    {/* Facebook media URLs expire; do not rely on them for permanent archival. */}
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={post.imageUrl} alt={"Photograph from " + post.event}
-                      loading="lazy" className="mt-5 aspect-video w-full rounded-2xl object-cover" />
-                  </a>
-                ) : null}
-                <p className="mt-5 whitespace-pre-line break-words text-base leading-7 text-slate-700">
-                  {post.text || "A new update from the Impact Generation Global Facebook Page."}
-                </p>
-                <a href={post.url} target="_blank" rel="noopener noreferrer"
-                  className="mt-5 inline-flex text-sm font-bold text-emerald-800 underline underline-offset-4">
-                  View original Facebook post →
-                </a>
-              </article>
-            ))}
+            {updates.map(post=><UpdateCard key={post.id} post={post} pageName="Impact Generation Global"/>)}
           </div>
         ) : (
           <div className="rounded-3xl border border-slate-200 bg-white p-8">
@@ -72,12 +48,12 @@ export default async function UpdatesPage() {
               Our existing programs and newsletters remain available below.
             </p>
             <a href={FACEBOOK_PAGE_URL} target="_blank" rel="noopener noreferrer"
-              className="mt-5 inline-block font-bold text-emerald-800 underline">Open official Facebook Page →</a>
+              className="mt-5 inline-block font-bold text-brand-800 underline">Open official Facebook Page →</a>
           </div>
         )}
         <div className="mt-12 flex flex-wrap gap-4">
-          <Link href="/gallery/events" className="rounded-full bg-emerald-800 px-6 py-3 font-bold text-white hover:bg-emerald-900">Browse event photos</Link>
-          <Link href="/newsletter" className="rounded-full border border-emerald-800 px-6 py-3 font-bold text-emerald-900 hover:bg-emerald-50">Read our newsletter</Link>
+          <Link href="/gallery/events" className="rounded-full bg-brand-800 px-6 py-3 font-bold text-white hover:bg-brand-900">Browse event photos</Link>
+          <Link href="/newsletter" className="rounded-full border border-brand-800 px-6 py-3 font-bold text-brand-900 hover:bg-brand-50">Read our newsletter</Link>
         </div>
       </section>
     </main>

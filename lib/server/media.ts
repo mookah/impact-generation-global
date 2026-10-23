@@ -1,6 +1,6 @@
 import 'server-only';
 import { randomUUID } from 'node:crypto';
-import { AppError, db, env, hash } from './core';
+import { AppError, db, env, hash, supabaseHeaders } from './core';
 import type { Media, SourcePost } from '@/lib/content-types';
 
 function imageType(bytes: Uint8Array) {
@@ -16,7 +16,7 @@ export async function storeMedia(bytes: Uint8Array, caption: string, category: s
   const [existing] = await db<Media[]>(`igg_media?hash=eq.${digest}`);
   if (existing) return existing;
   const path = `${randomUUID()}.${mime.split('/')[1]}`;
-  const response = await fetch(`${env('SUPABASE_URL')}/storage/v1/object/impact-media/${path}`, { method: 'POST', headers: { Authorization: `Bearer ${env('SUPABASE_SERVICE_ROLE_KEY')}`, 'Content-Type': mime }, body: new Blob([Buffer.from(bytes)], { type: mime }), signal: AbortSignal.timeout(20000) });
+  const response = await fetch(`${env('SUPABASE_URL')}/storage/v1/object/impact-media/${path}`, { method: 'POST', headers: { ...supabaseHeaders(), 'Content-Type': mime }, body: new Blob([Buffer.from(bytes)], { type: mime }), signal: AbortSignal.timeout(20000) });
   if (!response.ok) throw new AppError('Permanent media storage is unavailable.', 503);
   const [media] = await db<Media[]>('igg_media', 'POST', { storage_path: path, caption: caption.slice(0, 300), category: category.slice(0, 100), event: event.slice(0, 150), source_id: sourceId || null, hash: digest, consent: true, approved: true });
   return media;

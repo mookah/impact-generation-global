@@ -13,10 +13,25 @@ export function env(name: string) {
 export const configured = () => Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
 export const hash = (text: string) => createHash('sha256').update(text).digest('hex');
 export function equal(a: string, b: string) { return timingSafeEqual(Buffer.from(hash(a)), Buffer.from(hash(b))); }
+const JWT_SHAPE = /^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/;
+/**
+ * Supabase API key sent only in `apikey`. New `sb_secret_` keys are opaque strings,
+ * not JWTs, so they must never be placed in `Authorization`. Legacy service-role
+ * keys are JWTs and are additionally copied to `Authorization` when no user is signed in.
+ */
+export function supabaseHeaders(userJwt?: string): Record<string, string> {
+  const key = env('SUPABASE_SERVICE_ROLE_KEY');
+  const headers: Record<string, string> = { apikey: key };
+  if (userJwt) headers.Authorization = `Bearer ${userJwt}`;
+  else if (!key.startsWith('sb_') && JWT_SHAPE.test(key)) headers.Authorization = `Bearer ${key}`;
+  return headers;
+}
+/** API key plus an authenticated user's access token, kept separate from the server key. */
+export const authHeaders = (userJwt: string) => supabaseHeaders(userJwt);
 export async function db<T>(path: string, method = 'GET', body?: unknown): Promise<T> {
   const response = await fetch(`${env('SUPABASE_URL')}/rest/v1/${path}`, {
     method, cache: 'no-store', signal: AbortSignal.timeout(20000),
-    headers: { apikey: env('SUPABASE_SERVICE_ROLE_KEY'), Authorization: `Bearer ${env('SUPABASE_SERVICE_ROLE_KEY')}`, 'Content-Type': 'application/json', Prefer: 'return=representation,resolution=merge-duplicates' },
+    headers: { ...supabaseHeaders(), 'Content-Type': 'application/json', Prefer: 'return=representation,resolution=merge-duplicates' },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
   if (!response.ok) throw new AppError('Database operation failed. Check the migration and server configuration.', 503);
@@ -26,7 +41,7 @@ export const rpc = <T>(name: string, body: unknown) => db<T>(`rpc/${name}`, 'POS
 export async function admin() {
   const token = (await cookies()).get('igg_session')?.value;
   if (!token) throw new AppError('Administrator sign-in required.', 401);
-  const response = await fetch(`${env('SUPABASE_URL')}/auth/v1/user`, { cache: 'no-store', headers: { apikey: env('SUPABASE_SERVICE_ROLE_KEY'), Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(10000) });
+  const response = await fetch(`${env('SUPABASE_URL')}/auth/v1/user`, { cache: 'no-store', headers: supabaseHeaders(token), signal: AbortSignal.timeout(10000) });
   if (!response.ok) throw new AppError('Session expired. Sign in again.', 401);
   const user = await response.json();
   const allowed = env('ADMIN_EMAILS').toLowerCase().split(',').map(s => s.trim());
