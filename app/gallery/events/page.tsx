@@ -11,9 +11,6 @@ export const metadata: Metadata = {
 export default async function EventGalleryPage() {
   const feed = await getFacebookUpdates(50);
   const photos = feed.posts.filter((post) => post.imageUrl && !post.isVideo);
-  const albums = Object.groupBy
-    ? null
-    : null;
   // Group by identified program/event. Editorial event IDs and permanent
   // cloud image storage can replace keyword classification in phase two.
   const grouped = new Map<string, typeof photos>();
@@ -22,7 +19,6 @@ export default async function EventGalleryPage() {
     group.push(photo);
     grouped.set(photo.event, group);
   }
-  void albums;
 
   return (
     <main className="min-h-screen bg-slate-50 text-slate-900">
