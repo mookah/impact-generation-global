@@ -6,21 +6,21 @@ import { useState } from "react";
 
 export default function GalleryPage() {
   const images = [
-    { src: "/images/boys-to-men-hero.jpg", alt: "Boys To Men Program", category: "Boys To Men" },
-    { src: "/images/boys-to-men-1.jpg", alt: "Mentorship Session", category: "Boys To Men" },
-    { src: "/images/boys-to-men-2.jpg", alt: "Leadership Training", category: "Boys To Men" },
+    { src: "/images/boys-to-men/boys-to-men-hero.jpg", alt: "Boys To Men Program", category: "Boys To Men" },
+    { src: "/images/boys-to-men/boys-to-men-2.jpg", alt: "Mentorship Session", category: "Boys To Men" },
+    { src: "/images/boys-to-men/boys-to-men-3.jpg", alt: "Leadership Training", category: "Boys To Men" },
 
     { src: "/images/pastors-kids-hero.jpg", alt: "Pastors Kids Event", category: "Pastors Kids" },
     { src: "/images/pastors-kids-1.jpg", alt: "Pastors Kids Fellowship", category: "Pastors Kids" },
     { src: "/images/pastors-kids-2.jpg", alt: "Mentorship Gathering", category: "Pastors Kids" },
 
     { src: "/images/cycle-for-change-hero.jpg", alt: "Cycle For Change", category: "Cycle For Change" },
-    { src: "/images/cycle-for-change-1.jpg", alt: "Community Ride", category: "Cycle For Change" },
-    { src: "/images/cycle-for-change-2.jpg", alt: "Youth Riders", category: "Cycle For Change" },
+    { src: "/images/events/cycle-for-change-community-ride.jpg", alt: "Community Ride", category: "Cycle For Change" },
+    { src: "/images/events/cycle-for-change-city-ride.jpg", alt: "Youth Riders", category: "Cycle For Change" },
 
-    { src: "/images/pad-a-girl-hero.jpg", alt: "Pad A Girl Program", category: "Pad A Girl" },
-    { src: "/images/pad-a-girl-school-session-1.jpg", alt: "School Session", category: "Pad A Girl" },
-    { src: "/images/pad-a-girl-community-outreach.jpg", alt: "Community Outreach", category: "Pad A Girl" },
+    { src: "/images/pad-a-girl/pad-a-girl-hero.jpg", alt: "Pad A Girl Program", category: "Pad A Girl" },
+    { src: "/images/pad-a-girl/pad-a-girl-school-session-1.jpg", alt: "School Session", category: "Pad A Girl" },
+    { src: "/images/pad-a-girl/pad-a-girl-community-outreach.jpg", alt: "Community Outreach", category: "Pad A Girl" },
   ];
 
   const [lightboxIndex, setLightboxIndex] = useState(-1);
@@ -83,7 +83,7 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        {/* GALLERY */}
+        <div className="mx-auto max-w-7xl px-6 text-center">\n          <Link href="/gallery/events" className="inline-flex rounded-full bg-emerald-800 px-7 py-3 font-bold text-white transition hover:bg-emerald-900">\n            Browse Event Albums →\n          </Link>\n        </div>\n\n        {/* GALLERY */}
         <section className="px-6 pb-24">
           <div className="mx-auto max-w-7xl">
             <div className="columns-1 gap-6 space-y-6 sm:columns-2 lg:columns-3">
