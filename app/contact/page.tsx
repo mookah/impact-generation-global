@@ -45,7 +45,7 @@ export default function ContactPage() {
             </p>
 
             <h2 className="mt-3 text-3xl font-black md:text-5xl">
-              We'd Love To Hear From You
+              We&apos;d Love To Hear From You
             </h2>
 
             <p className="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
@@ -106,12 +106,12 @@ export default function ContactPage() {
             </p>
 
             <h2 className="mt-4 text-3xl font-black md:text-5xl">
-              Let's Build Impact Together
+              Let&apos;s Build Impact Together
             </h2>
 
             <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600">
-              Whether you're an individual, church, business, school, or
-              ministry, we'd love to explore how we can work together to empower
+              Whether you&apos;re an individual, church, business, school, or
+              ministry, we&apos;d love to explore how we can work together to empower
               young people, strengthen families, and transform communities
               across Zambia and beyond.
             </p>
@@ -133,7 +133,7 @@ export default function ContactPage() {
               <h3 className="text-2xl font-bold">Support The Mission</h3>
               <p className="mt-4 leading-7 text-slate-600">
                 Every donation directly supports youth programs, school
-                ministry, community outreach, girls' empowerment, and leadership
+                ministry, community outreach, girls&apos; empowerment, and leadership
                 development.
               </p>
             </div>
@@ -153,7 +153,7 @@ export default function ContactPage() {
 
       <section className="bg-emerald-700 px-6 py-20 text-center text-white">
         <h2 className="text-3xl font-black md:text-5xl">
-          Let's Make A Difference Together
+          Let&apos;s Make A Difference Together
         </h2>
 
         <p className="mx-auto mt-5 max-w-2xl text-lg text-emerald-50">
